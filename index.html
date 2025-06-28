@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>spirit garden</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id = "background">
+    </div>
+
+    <div id = "canvas">
+
+
+
+        <div id = "garden_ui">
+            <h2> garden </h2>
+            <div id = "garden_items">
+                
+            </div>
+        </div>
+
+        <div id = "garden">
+            <img id = "garden_img" src = "assets/garden.png">
+            <button id = "dirt1" class = "dirt" alt = "plot 1">
+                <img src = "assets/dirt.png">
+            </button>
+            <button id = "dirt2" class = "dirt" alt = "plot 2">
+                <img src = "assets/dirt.png">
+            </button>
+            <button id = "dirt3" class = "dirt" alt = "plot 3">
+                <img src = "assets/dirt.png">
+            </button>
+            <button id = "dirt4" class = "dirt" alt = "plot 4">
+                <img src = "assets/dirt.png">
+            </button>
+        </div>
+        
+        <div id = "interaction_btns" class = "hidden">
+            <button id = "seed_btn" onclick = "toggleSeedUI()" class = "interaction_btn">
+                <img src = "assets/btns/plant.png">
+            </button>
+            <button id = "info_btn" class = "interaction_btn">
+                <img src = "assets/btns/info.png">
+            </button>
+            <button id = "water_btn" class = "interaction_btn">
+                <img src = "assets/btns/water.png">
+            </button>
+        </div>
+
+        <div id = "seed_ui">
+            <h2> seed pouch </h2>
+            <div id = "seed_items">
+                
+            </div>
+            <button id = "seed_close_btn" onclick = "toggleSeedUI()"> close lil baggie </button>
+        </div>
+
+    </div>
+
+</body>
+<script src="script.js"></script>
+</html>
