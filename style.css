@@ -75,7 +75,7 @@ body, html {
     width: 100%;
 }
 
-.dirt img:hover {
+.dirt:hover {
     transform: scale(1.05);
 }
 
@@ -110,14 +110,6 @@ body, html {
 .interaction_btn:hover {
     animation: none;
     transform: rotate(10deg);
-}
-
-#seed_btn:hover {
-    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="20" viewBox="0 0 80 20"><rect width="80" height="20" fill="black" rx="3"/><text x="40" y="13" font-family="monospace" font-size="10" fill="white" text-anchor="middle">plant seed</text></svg>'), auto;
-}
-
-#seed_btn  img {
-    cursor: inherit;
 }
 
 #seed_ui {
@@ -195,10 +187,38 @@ body, html {
     left: 2px;
 }
 
+#seed_btn  img {
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="20" viewBox="0 0 80 20"><rect width="80" height="20" fill="black" rx="3"/><text x="40" y="13" font-family="monospace" font-size="10" fill="white" text-anchor="middle">plant seed</text></svg>'), auto;
+}
+
+#info_btn:hover {
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="20" viewBox="0 0 80 20"><rect width="50" height="20" fill="black" rx="3"/><text x="25" y="13" font-family="monospace" font-size="10" fill="white" text-anchor="middle">info</text></svg>'), auto;
+}
+
+#water_btn:hover {
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="20" viewBox="0 0 80 20"><rect width="60" height="20" fill="black" rx="3"/><text x="30" y="13" font-family="monospace" font-size="10" fill="white" text-anchor="middle">water</text></svg>'), auto;
+}
+
+#hybrid_btn:hover {
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="20" viewBox="0 0 80 20"><rect width="79" height="20" fill="black" rx="3"/><text x="40" y="13" font-family="monospace" font-size="10" fill="white" text-anchor="middle">hybridize</text></svg>'), auto;
+}
+
+#cut_btn:hover {
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="20" viewBox="0 0 80 20"><rect width="50" height="20" fill="black" rx="3"/><text x="25" y="13" font-family="monospace" font-size="10" fill="white" text-anchor="middle">cut</text></svg>'), auto;
+}
+
+#close_btn:hover {
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="20" viewBox="0 0 80 20"><rect width="60" height="20" fill="black" rx="3"/><text x="30" y="13" font-family="monospace" font-size="10" fill="white" text-anchor="middle">close</text></svg>'), auto;
+}
+
+
 @keyframes popup {
     0% {
         transform: scale(0.5);
         opacity: 0;
+    }
+    90% {
+        transform: scale(1.05);
     }
     100% {  
         transform: scale(1);
@@ -208,4 +228,32 @@ body, html {
 
 .hidden {
     display: none;
+    transition: opacity 0.3s ease-in-out;
+}
+
+@keyframes fade-hover {
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    20% {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+    80% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+}
+
+@keyframes fade {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }

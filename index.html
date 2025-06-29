@@ -38,7 +38,7 @@
         </div>
         
         <div id = "interaction_btns" class = "hidden">
-            <button id = "seed_btn" onclick = "toggleSeedUI()" class = "interaction_btn">
+            <button id = "seed_btn" class = "interaction_btn">
                 <img src = "assets/btns/plant.png">
             </button>
             <button id = "info_btn" class = "interaction_btn">
@@ -47,18 +47,28 @@
             <button id = "water_btn" class = "interaction_btn">
                 <img src = "assets/btns/water.png">
             </button>
+            <button id = "hybrid_btn" class = "interaction_btn">
+                <img src = "assets/btns/hybridize.png">
+            </button>
+            <button id = "cut_btn" class = "interaction_btn">
+                <img src = "assets/btns/cut.png">
+            </button>
+            <button id = "close_btn" class = "interaction_btn">
+                <img src = "assets/btns/close.png">
+            </button>
         </div>
 
         <div id = "seed_ui">
-            <h2> seed pouch </h2>
+            <h2> stored seeds </h2>
             <div id = "seed_items">
                 
             </div>
-            <button id = "seed_close_btn" onclick = "toggleSeedUI()"> close lil baggie </button>
+            <button id = "seed_close_btn"> close pouch </button>
         </div>
 
     </div>
 
 </body>
+<script src="button-positioning.js"></script>
 <script src="script.js"></script>
 </html>
