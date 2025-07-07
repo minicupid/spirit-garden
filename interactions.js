@@ -3,6 +3,7 @@
 function openHybridUI(plot) {
     showBackground();
     hideUI();
+    pauseStageGrowth(plot.id);
     // set up ui
     hybrid_current_plot = plot;
     hybrid_ui.style.display = 'flex';
@@ -37,6 +38,7 @@ function openHybridUI(plot) {
 // click input2 to open sidebar
 hybrid_new_seed.onclick = () => {
     showHybridSidebar();
+    showBackground();
 };
 
 // officially hybridize
@@ -61,7 +63,6 @@ function showHybridSidebar() {
                     hybrid_sidebar.style.display = 'none';
                     hybrid_new_seed.innerHTML = `<img src="${type.img}" style="width:64px; height:64px;">`;
                     hybrid_new_seed.style.opacity = 1;
-                    notification(`selected ${type.name}`, type.img);
                     checkHybridResult();
                 };
                 hybrid_sidebar_seeds.appendChild(btn);
@@ -104,30 +105,36 @@ function checkHybridResult() {
                 hybrid_possible_seed.style.opacity = 1;
             } else {
                 console.error(`seed type not found: ${result_seed}`);
-                hybrid_possible_seed.innerHTML = `<img src="assets/undiscovered.png" style="width:64px; height:64px;">`;
+                hybrid_possible_seed.innerHTML = `<img src="assets/unfound.gif" style="width:64px; height:64px;">`;
                 hybrid_possible_seed.style.opacity = 0.7;
             }
         } else {
             console.log("seed not discovered yet:", result_seed);
-            hybrid_possible_seed.innerHTML = `<img src="assets/undiscovered.png" style="width:64px; height:64px;">`;
+            hybrid_possible_seed.innerHTML = `<img src="assets/undiscovered.gif" style="width:64px; height:64px;">`;
             hybrid_possible_seed.style.opacity = 0.7;
         }
         hybrid_combine_btn.disabled = false;
     } else {
         console.log("no valid recipe found");
-        hybrid_possible_seed.innerHTML = `<img src="assets/undiscovered.png" style="width:64px; height:64px;">`;
+        hybrid_possible_seed.innerHTML = `<img src="assets/unfound.gif" style="width:64px; height:64px;">`;
         hybrid_possible_seed.style.opacity = 0.7;
         hybrid_combine_btn.disabled = true;
+        notification("this combination is illegal!", "assets/btns/close.png");
+        setTimeout(() => {
+            notification("check your notepad!", "assets/notif.png");
+        }, 1000);
     }
 }
 
 function closeHybridUI() {
     hybrid_ui.style.display = 'none';
+    resumeStageGrowth(hybrid_current_plot.id);
 }
 
 // HYBRID COMBINE FUNCTION ========================================================
 
 function combineHybrid() {
+    pauseStageGrowth(hybrid_current_plot.id);
     if (!hybrid_recipe || !hybrid_current_plot) {
         console.log("no recipe or plot selected");
         return;

@@ -10,6 +10,7 @@ function hideUI() {
     // hide hybrid UI if visible
     if (hybrid_ui.style.display === 'flex') {
         hybrid_ui.style.display = 'none';
+        resumeStageGrowth(hybrid_current_plot.id);
     }
     
     // hide buttons if visible
@@ -61,12 +62,6 @@ function pauseGrowth(plot) {
 close_btn.addEventListener('click', () => {
     hideUI();
     console.log("close button clicked");
-});
-
-water_btn.addEventListener('click', () => {
-    console.log("water button clicked on", selected_plot.id);
-    advanceSprout(selected_plot.id);
-    hideUI();
 });
 
 cut_btn.addEventListener('click', () => {

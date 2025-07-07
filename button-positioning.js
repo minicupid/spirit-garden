@@ -10,8 +10,31 @@ function positionButtons(plot) {
 
     
     // position buttons relative to plot
-    if (dirt_plot && dirt_plot.sprout_stage >= 1) {
+
+    if (dirt_plot && dirt_plot.sprout_stage === 6) {
+        console.log("displaying grown btn positions");
+        hybrid_btn.style.display = 'none';
+        water_btn.style.display = 'none';
+
+        info_btn.style.display = 'absolute';
+        info_btn.style.left = (plotRect.left - canvasRect.left + plotRect.width / 2 - info_btn.offsetWidth / 2) + 'px';
+        info_btn.style.top = (plotRect.top - canvasRect.top - 30) + 'px';
+        close_btn.style.position = 'absolute';
+        close_btn.style.left = (plotRect.left - canvasRect.left + plotRect.width / 2 - close_btn.offsetWidth / 2 + 50) + 'px';
+        close_btn.style.top = (plotRect.top - canvasRect.top + 60) + 'px';
+        cut_btn.style.display = 'absolute';
+        cut_btn.style.left = (plotRect.left - canvasRect.left + plotRect.width / 2 - cut_btn.offsetWidth / 2 - 50) + 'px';
+        cut_btn.style.top = (plotRect.top - canvasRect.top + 60) + 'px';
+        
+    } else if (dirt_plot && dirt_plot.sprout_stage >= 1) {
         console.log("displaying planted btn positions");
+
+        info_btn.style.display = 'block';
+        cut_btn.style.display = 'block';
+        hybrid_btn.style.display = 'block';
+        water_btn.style.display = 'block';
+        seed_btn.style.display = 'none';
+
 
         info_btn.style.position = 'absolute';
         info_btn.style.left = (plotRect.left - canvasRect.left + plotRect.width / 2 - info_btn.offsetWidth / 2) + 'px';
@@ -36,13 +59,20 @@ function positionButtons(plot) {
     } else {
         console.log("displaying normal btn positions");
         
+        seed_btn.style.display = 'block';
         seed_btn.style.position = 'absolute';
         seed_btn.style.left = (plotRect.left - canvasRect.left + plotRect.width / 2 - seed_btn.offsetWidth / 2) + 'px';
         seed_btn.style.top = (plotRect.top - canvasRect.top - 10) + 'px';
 
+        close_btn.style.display = 'block';
         close_btn.style.position = 'absolute';
         close_btn.style.left = (plotRect.left - canvasRect.left + plotRect.width / 2 - close_btn.offsetWidth / 2) + 'px';
         close_btn.style.top = (plotRect.top - canvasRect.top + 100-13) + 'px';
+
+        hybrid_btn.style.display = 'none';
+        water_btn.style.display = 'none';
+        cut_btn.style.display = 'none';
+        info_btn.style.display = 'none';
 
     }
 } 
