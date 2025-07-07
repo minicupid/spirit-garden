@@ -1,90 +1,3 @@
-const seed_btn = document.getElementById('seed_btn');
-const water_btn = document.getElementById('water_btn');
-const seed_close_btn = document.getElementById('seed_close_btn');
-const seed_ui = document.getElementById('seed_ui');
-const background = document.getElementById('background');
-const garden = document.getElementById('garden');
-const info_btn = document.getElementById('info_btn');
-const hybrid_btn = document.getElementById('hybrid_btn');
-const cut_btn = document.getElementById('cut_btn');
-const close_btn = document.getElementById('close_btn');
-const interaction_btns = document.getElementById('interaction_btns');
-
-// dirt plots dataset
-const dirt_plots = [
-    { id: "dirt1", element: document.getElementById('dirt1'), has_sprout: false, sprout_stage: null },
-    { id: "dirt2", element: document.getElementById('dirt2'), has_sprout: false, sprout_stage: null },
-    { id: "dirt3", element: document.getElementById('dirt3'), has_sprout: false, sprout_stage: null },
-    { id: "dirt4", element: document.getElementById('dirt4'), has_sprout: false, sprout_stage: null },
-];
-
-// sprout growth stages
-const sprout_stages = [
-    { stage: 0, name: "empty" },
-    { stage: 1, name: "seedling", img: "assets/growth/1.png" },
-    { stage: 2, name: "sprout", img: "assets/growth/2.png" },
-    { stage: 3, name: "sapling", img: "assets/growth/3.png" },
-    { stage: 4, name: "baby bud", img: "assets/growth/4.png" }, 
-    { stage: 5, name: "mature bud", img: "assets/growth/5.png" }
-];
-
-const seed_types =[
-    { id: "red", name: "red seed", img: "assets/seeds/red_seed.png" },
-    { id: "blue", name: "blue seed", img: "assets/seeds/blue_seed.png" },
-    { id: "green", name: "green seed", img: "assets/seeds/green_seed.png" },
-    { id: "yellow", name: "yellow seed", img: "assets/seeds/yellow_seed.png" },
-    { id: "brown", name: "brown seed", img: "assets/seeds/brown_seed.png" },
-    { id: "grey", name: "grey seed", img: "assets/seeds/grey_seed.png" },
-]
-
-let player_seeds = [
-    { id: "red", amount: 1 },
-    { id: "blue", amount: 0 },
-    { id: "green", amount: 0 },
-    { id: "yellow", amount: 1 },
-    { id: "brown", amount: 2 },
-    { id: "grey", amount: 0 },
-]
-
-const flower_types = [
-    { id: "red", name: "rose shards", img: "assets/flowers/red.gif" },
-    { id: "blue", name: "azure fluid", img: "assets/flowers/blue.gif" },
-    { id: "green", name: "fragments of the wind", img: "assets/flowers/green.gif" },
-    { id: "yellow", name: "sunboy bloom", img: "assets/flowers/yellow.gif" },
-    { id: "brown", name: "odd peony", img: "assets/flowers/brown.gif" },
-    { id: "grey", name: "ocean vapor", img: "assets/flowers/grey.gif" },
-]
-
-// when ui / btn open + user clicks outside, hide elements
-background.addEventListener('click', hideUI);
-
-function hideUI() {
-    // hide seed UI if visible
-    if (seed_ui.style.display === 'flex') {
-        seed_ui.style.display = 'none';
-    }
-    
-    // hide buttons if visible
-    if (!interaction_btns.classList.contains('hidden')) { // if visible
-        interaction_btns.classList.add('hidden');
-    }
-    
-    // hide background to prevent click capture
-    background.style.display = 'none';
-    
-    // clear selection
-    selected_plot = null;
-}
-
-function showBackground() {
-    background.style.display = 'block';
-}
-
-function hideBackground() {
-    background.style.display = 'none';
-}
-
-
 
 const dirt = document.querySelectorAll('.dirt');
 
@@ -98,29 +11,22 @@ let selected_plot = null;
 
 function selectPlot(plot) {
     selected_plot = plot; // set selected plot to the clicked dirt plot
-    console.log("selected plot:", selected_plot.id);
+    console.log("selected plot:", selected_plot);
     
     // find the corresponding data object for the selected plot
     const dirt_plot = dirt_plots.find(d => d.id === plot.id);
     
     if (dirt_plot && dirt_plot.has_sprout) {
+        const seed = seed_types[dirt_plot.seed_type];
+        console.log("seed:", seed);
+
         // show buttons after clicking on dirt with sprout
         interaction_btns.classList.remove('hidden');
-        
-        if (dirt_plot.sprout_stage >= 3) {
-            cut_btn.classList.remove('hidden'); // show cut if > stage 3
-            hybrid_btn.classList.add('hidden'); // hide hybrid if > stage 3
-        }
-        else {
-            cut_btn.classList.add('hidden'); // hide cut if < stage 3
-            hybrid_btn.classList.remove('hidden'); // show hybrid if < stage 3
-        }
-        
-        // show info and water buttons, hide seed button
         seed_btn.classList.add('hidden');
         info_btn.classList.remove('hidden');
         water_btn.classList.remove('hidden');
-        
+        hybrid_btn.classList.remove('hidden');
+        cut_btn.classList.remove('hidden');
     }
     else {
         // show interaction_btns to display seed_btn when no sprout
@@ -131,6 +37,10 @@ function selectPlot(plot) {
         hybrid_btn.classList.add('hidden');
         cut_btn.classList.add('hidden');
     }
+
+    dirt.forEach(dirt => {
+        dirt.tabIndex = -1;
+    });
     
     // activate background clicks for hiding UI
     showBackground();
@@ -138,25 +48,6 @@ function selectPlot(plot) {
     // position buttons relative to the selected plot
     positionButtons(plot);
 }
-
-// INTERACTION BUTTONS ========================================================
-
-close_btn.addEventListener('click', () => {
-    hideUI();
-    console.log("close button clicked");
-});
-
-water_btn.addEventListener('click', () => {
-    console.log("water button clicked on", selected_plot.id);
-    advanceSprout(selected_plot.id);
-    hideUI();
-});
-
-cut_btn.addEventListener('click', () => {
-    console.log("cut button clicked on", selected_plot.id);
-    cutSprout(selected_plot.id);
-    hideUI();
-});
 
 // ADD SEED INTERACTION ========================================================
 
@@ -183,7 +74,12 @@ function seedUI() { // shows seed ui with updated seed items
             seed_ui.style.display = 'none'; // close
             interaction_btns.classList.add('hidden'); // hide buttons
             hideBackground(); // disable background when UI is closed
+            // reset tab index
+            dirt.forEach(dirt => {
+                dirt.tabIndex = 0;
+            });
             return; // exit function when closing UI
+
         }
     }
     
@@ -196,15 +92,66 @@ function seedUI() { // shows seed ui with updated seed items
     player_seeds.forEach(seed => {
         if (seed.amount > 0) { // display seed type if > 0
             hasSeed = true;
-            const seed_type = seed_types.find(type => type.id === seed.id); // finds seed type
+            discovered_seeds[seed.id] = true;
+            console.log("discovered seeds:", discovered_seeds);
+            const seed_type = seed_types[seed.id]; // finds seed type
+            
             let btn = document.createElement('button'); // creates button for each seed type
             btn.classList.add('seed_type_btn'); // adds class to button
-            btn.innerHTML = `<img src = "${seed_type.img}" alt = "${seed_type.name}" style = "width: 32px; height: 32px;"><span style = "font-family: monospace;">${seed.amount}</span>` ;
+            
+            console.log("seed type:", seed_type);
+            // create button
+            console.log("seed type img:", seed_type.img);
+            let buttonContent = `<img src="${seed_type.img}" alt="${seed_type.name}"><span>${seed.amount}</span>`;
+            // rare indicator
+            if (seed.is_rare) {
+                buttonContent += `<img src="assets/rare.png" alt="rare" class="rare-indicator">`;
+            }
+
+            btn.innerHTML = buttonContent;
             console.log("loaded seeds:", seed_items);
+            
+            // change h2 when hover seed btn
+            btn.addEventListener('mouseenter', () => {
+                const seed_ui_h2 = document.querySelector('#seed_ui h2');
+                if (seed_ui_h2) {
+                    seed_ui_h2.innerHTML = seed_type.name;
+                }
+            });
+            
+            btn.addEventListener('mouseleave', () => {
+                const seed_ui_h2 = document.querySelector('#seed_ui h2');
+                if (seed_ui_h2) {
+                    seed_ui_h2.innerHTML = 'select a seed';
+                }
+            });
+            
+            btn.addEventListener('focus', () => {
+                const seed_ui_h2 = document.querySelector('#seed_ui h2');
+                if (seed_ui_h2) {
+                    seed_ui_h2.innerHTML = seed_type.name;
+                }
+            });
+            
+            btn.addEventListener('blur', () => {
+                const seed_ui_h2 = document.querySelector('#seed_ui h2');
+                if (seed_ui_h2) {
+                    seed_ui_h2.innerHTML = 'select a seed';
+                }
+            });
+            
             btn.addEventListener('click', () => {
                 plantSeed(seed.id, selected_plot); // sends seed and plot to plantSeed function
+                // reset tab index
+                dirt.forEach(dirt => {
+                    dirt.tabIndex = 0;
+                });
             });
             seed_items.appendChild(btn); // adds button inside seed items div
+            seed_items.addEventListener("wheel", (event) => {
+                event.preventDefault();
+                seed_items.scrollLeft += event.deltaY;
+            });
         }
     });
 
@@ -217,7 +164,8 @@ function seedUI() { // shows seed ui with updated seed items
 
 function plantSeed(seed_id, plot_element) {
     console.log("planted a", seed_id, "seed on", plot_element.id);
-    
+    notification(`planted a ${seed_types[seed_id].name}`, seed_types[seed_id].img);
+
     // find dirt plot in dataset
     const dirt_plot = dirt_plots.find(plot => plot.id === plot_element.id);
     
@@ -226,6 +174,8 @@ function plantSeed(seed_id, plot_element) {
         dirt_plot.has_sprout = true;
         dirt_plot.sprout_stage = 0;
         dirt_plot.seed_type = seed_id;
+        dirt_plot.parents = [];
+        dirt_plot.hybrid = false; // check if parents = 2 -> true
         
         // get current sprout stage info
         const current_stage = sprout_stages.find(stage => stage.stage === 0);
@@ -241,6 +191,7 @@ function plantSeed(seed_id, plot_element) {
             // start growth process
             growth(plot_element.id);
             console.log("growth started");
+            enableSelection(plot_element);
         }, 8000);
 
         console.log(`adding seed to ${plot_element.id}`);
@@ -253,6 +204,7 @@ function plantSeed(seed_id, plot_element) {
         // hide UI and background
         seed_ui.style.display = 'none';
         interaction_btns.classList.add('hidden');
+        disableSelection(plot_element);
         hideBackground();
         selected_plot = null; // clear selection
         return; // exit function
@@ -306,28 +258,65 @@ function advanceSprout(plot_id) {
         // update sprout visual
         const plot_element = dirt_plot.element;
         
-        if (dirt_plot.sprout_stage === 1) {
-            plot_element.innerHTML = `<img src = "assets/growth/1.png">`;
-        }
-        if (dirt_plot.sprout_stage === 2) {
-            plot_element.innerHTML = `<img src = "assets/growth/2.png">`;
-        }
-        if (dirt_plot.sprout_stage === 3) {
-            plot_element.innerHTML = `<img src = "assets/growth/3.png">`;
-        }
-        if (dirt_plot.sprout_stage === 4) {
-            plot_element.innerHTML = `<img src = "assets/growth/4.png">`;
-        }
-        if (dirt_plot.sprout_stage === 5) {
-            plot_element.innerHTML = `<img src = "assets/growth/5.png">`;
-        }
         if (dirt_plot.sprout_stage === 6) {
-            loadFlower(plot_id);
+            const dirt_plot = dirt_plots.find(plot => plot.id === plot_id);
+            if (dirt_plot) {
+                // check if hybrid
+                if (dirt_plot.hybrid) {
+                    const seed1 = seed_types[dirt_plot.parents[0]];
+                    const seed2 = seed_types[dirt_plot.parents[1]];
+                    
+                    // find the hybrid recipe to get the result
+                    const hybrid_recipe = hybrid_recipes.find(r =>
+                        (r.parents.includes(dirt_plot.parents[0]) && r.parents.includes(dirt_plot.parents[1]))
+                    );
+                    
+                    if (hybrid_recipe) {
+                        const result_seed = seed_types[hybrid_recipe.child];
+                        const flower_type = flower_types[hybrid_recipe.child];
+                        
+                        console.log("hybrid result:", hybrid_recipe.child);
+                        console.log("flower type:", flower_type);
+                        
+                        if (flower_type) {
+                            plot_element.innerHTML = `<img src="${flower_type.img}" alt="${flower_type.name}">`;
+                            console.log(`hybrid flower bloomed: ${flower_type.name} on ${plot_id}`);
+                            advanceAnimation(plot_element);
+                        } else {
+                            console.error(`flower type not found for hybrid result: ${hybrid_recipe.child}`);
+                        }
+                        
+                        notification(`${seed1.id} has successfully hybridized!`, "assets/btns/hybridize.png");
+                    }
+                }
+                else {
+                    const plot_element = dirt_plot.element;
+                    const flower_type = flower_types[dirt_plot.seed_type];
+                    
+                    if (flower_type) {
+                        plot_element.innerHTML = `<img src="${flower_type.img}" alt="${flower_type.name}">`;
+                        console.log(`flower bloomed: ${flower_type.name} on ${plot_id}`);
+                        advanceAnimation(plot_element);
+                        notification(`${flower_type.name} bloomed!`, flower_type.img);
+                    }
+                }
+            }
+        } else {
+            const stage_info = sprout_stages.find(stage => stage.stage === dirt_plot.sprout_stage);
+            if (stage_info && stage_info.img) {
+                plot_element.innerHTML = `<img src="${stage_info.img}" alt="${stage_info.name}">`;
+                advanceAnimation(plot_element);
+            }
         }
         
-        console.log(`advanced ${plot_id} to ${new_stage.name} stage`);
+        if (new_stage) {
+            console.log(`advanced ${plot_id} to ${new_stage.name} stage`);
+        } else {
+            console.log(`advanced ${plot_id} to stage ${dirt_plot.sprout_stage}`);
+        }
         console.log("current plot info:", dirt_plot);
         
+        function advanceAnimation(plot_element) {
         // advancement animation 3s
         const overlay = document.createElement('img');
         overlay.src = "assets/advance.gif";
@@ -338,7 +327,7 @@ function advanceSprout(plot_id) {
         overlay.style.width = '100%';
         overlay.style.height = '100%';
         overlay.style.zIndex = '10';
-        overlay.style.animation = 'fade-hover 3s ease-in-out';
+        overlay.style.animation = 'fade-hover 2.5s ease-in-out';
         
         plot_element.style.position = 'relative';
         plot_element.appendChild(overlay);
@@ -348,8 +337,9 @@ function advanceSprout(plot_id) {
             if (overlay && overlay.parentNode) {
                 plot_element.removeChild(overlay);
             }
-        }, 3000);
-        
+        }, 2500);
+        }
+
         return;
     }
 }
@@ -372,72 +362,19 @@ function getSproutInfo(plot_id) {
     return null;
 }
 
-// CUT SPROUT ========================================================
+// NOTIFICATIONS ========================================================
 
-function cutSprout(plot_id) {
-    const dirt_plot = dirt_plots.find(plot => plot.id === plot_id);
-    if (dirt_plot) {
-        // reset growth timer
-        if (dirt_plot.growthTimer) {
-            clearInterval(dirt_plot.growthTimer);
-            dirt_plot.growthTimer = null;
-        }
-        
-        // reset plot data
-        dirt_plot.has_sprout = false;
-        dirt_plot.sprout_stage = null;
-        dirt_plot.seed_type = null;
-        console.log("cut sprout on", plot_id);
-
-        // cut animation overlay 1s
-        const plot_element = dirt_plot.element;
-        
-        // fade the plant to 0% opacity
-        const plantImg = plot_element.querySelector('img');
-        if (plantImg) {
-            plantImg.style.transition = 'opacity 1s ease-out';
-            plantImg.style.opacity = '0';
-        }
-        
-        const overlay = document.createElement('img');
-        overlay.src = `assets/cut.gif?t=${Date.now()}`;
-        overlay.alt = "cut animation";
-        overlay.style.position = 'absolute';
-        overlay.style.top = '0';
-        overlay.style.left = '0';
-        overlay.style.width = '100%';
-        overlay.style.height = '100%';
-        overlay.style.zIndex = '10';
-        
-        plot_element.style.position = 'relative';
-        plot_element.appendChild(overlay);
-        
-        // remove overlay after 1s
+function notification(message, img) {
+    const notification_container = document.getElementById('notification-container');
+    const notification = document.createElement('div');
+    notification.classList.add('notification');
+    notification.innerHTML = `<img src = "${img}"> <span>${message}</span>`;
+    notification_container.appendChild(notification);
+    notification.style.display = 'block';
+    setTimeout(() => {
+        notification.style.opacity = '0';
         setTimeout(() => {
-            if (overlay && overlay.parentNode) {
-                plot_element.removeChild(overlay);
-            }
-            // show default dirt
-            plot_element.innerHTML = `<img src = "assets/dirt.png">`;
-
-        }, 1000);
-
-        hideUI();
-        
-    }
-}
-
-// STAGE 6 LOAD FLOWER ========================================================
-
-function loadFlower(plot_id) {
-    const dirt_plot = dirt_plots.find(plot => plot.id === plot_id);
-    if (dirt_plot) {
-        const plot_element = dirt_plot.element;
-        const flower_type = flower_types.find(flower => flower.id === dirt_plot.seed_type);
-        
-        if (flower_type) {
-            plot_element.innerHTML = `<img src="${flower_type.img}" alt="${flower_type.name}">`;
-            console.log(`flower bloomed: ${flower_type.name} on ${plot_id}`);
-        }
-    }
+            notification.remove();
+        }, 2500);
+    }, 3000);
 }

@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>spirit garden</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="animations.css">
+    <link rel="stylesheet" href="uistyle.css">
 </head>
 <body>
     <div id = "background">
     </div>
 
     <div id = "canvas">
-
-
 
         <div id = "garden_ui">
             <h2> garden </h2>
@@ -37,7 +37,7 @@
             </button>
         </div>
         
-        <div id = "interaction_btns" class = "hidden">
+        <div id = "interaction_btns" class = "hidden"> <!-- ============================== -->
             <button id = "seed_btn" class = "interaction_btn">
                 <img src = "assets/btns/plant.png">
             </button>
@@ -58,17 +58,71 @@
             </button>
         </div>
 
-        <div id = "seed_ui">
-            <h2> stored seeds </h2>
+        <div id = "seed_ui"> <!-- ============================== -->
+
+            <img id = "seed_ui_img" src = "assets/uiBorder.gif">
+            <h2> select a seed </h2>
             <div id = "seed_items">
                 
             </div>
             <button id = "seed_close_btn"> close pouch </button>
+        
         </div>
 
+        <div id = "hybrid_ui"> <!-- ============================== -->
+        <div id = "hybrid_ui_main">
+            <img id = "hybrid_ui_A" src = "assets/hybridUi_A.gif">
+            <button id = "hybrid_cancel_btn"> 🔙 </button>
+            <div id = "hybrid_hint">
+                <img src = "assets/hint.gif">
+                <p> </p>
+            </div>
+            <div id = "inner_container">
+                <div id = "hybrid_input">
+                    <div id = "hybrid_old_seed" class = "hybrid_seed">
+                        <img src = "assets/flowers/green.gif">
+                    </div>
+                    <div id = "hybrid_new_seed" class = "hybrid_seed">
+                        <img id = "hybrid_add_btn" src = "assets/add.png" alt = "add seed">
+                    </div>
+                </div>
+                <div id = "hybrid_output">
+                    <div id = "hybrid_possible_seed" class = "hybrid_seed">
+                        <img src = "assets/undiscovered.png">
+                    </div>
+                </div>
+            </div>
+            <button id = "hybrid_combine_btn"> combine </button>
+        </div>
+
+        <div id = "hybrid_sidebar">
+            <div id = "hybrid_sidebar_seeds">
+                
+            </div>
+        </div>
+        </div>
+
+        <div id = "info_ui"> <!-- ============================== -->
+            <h2 id = "info_title"> </h2>
+            <div id = "info_content">
+                <span id = "seed_type"> </span>
+                <span id = "seed_stage"> </span>
+                <span id = "seed_hybrid"> </span>
+                <span id = "seed_water"> </span>
+            </div>
+        </div>
+    </div>
+
+    <div id = "notification-container">
+        <p id = "notification" style = "display: none;">
+            test
+        </div>
     </div>
 
 </body>
+<script src = "globalvar.js"></script>
+<script src = "toggles.js"></script>
 <script src="button-positioning.js"></script>
 <script src="script.js"></script>
+<script src="interactions.js"></script>
 </html>
