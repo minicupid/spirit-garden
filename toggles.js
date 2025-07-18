@@ -72,9 +72,25 @@ cut_btn.addEventListener('click', () => {
 
 info_btn.addEventListener('click', () => {
     console.log("info button clicked on", selected_plot.id);
-    getSproutInfo(selected_plot.id);
+    if (!selected_plot) return;
+    const dirt_plot = dirt_plots.find(plot => plot.id === selected_plot.id);
+    if (!dirt_plot || !dirt_plot.has_sprout) return;
+    console.log("dirt plot:", dirt_plot);
+    showPlotInfo(dirt_plot);
     hideUI();
 });
+
+// close info ui button
+const close_info_btn = document.getElementById('close_info_btn');
+if (close_info_btn) {
+    close_info_btn.addEventListener('click', () => {
+        const info_container = document.getElementById('info_container');
+        if (info_container) {
+            info_container.style.display = 'none';
+        }
+        resumeGame();        hideUI();
+    });
+}
 
 hybrid_btn.addEventListener('click', () => {
     openHybridUI(selected_plot);
@@ -82,4 +98,20 @@ hybrid_btn.addEventListener('click', () => {
 
 hybrid_cancel_btn.addEventListener('click', () => {
     closeHybridUI();
+});
+
+close_notepad_btn.addEventListener('click', () => {
+    const notepad = document.getElementById('notepad');
+    if (notepad) {
+        notepad.style.display = 'none';
+    }
+    hideUI();
+});
+
+notepad_btn.addEventListener('click', () => {
+    const notepad = document.getElementById('notepad');
+    if (notepad) {
+        notepad.style.display = 'flex';
+    }
+    hideUI();
 });

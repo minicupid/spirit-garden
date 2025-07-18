@@ -11,10 +11,15 @@ function positionButtons(plot) {
     
     // position buttons relative to plot
 
-    if (dirt_plot && dirt_plot.sprout_stage === 6) {
+    if (dirt_plot && dirt_plot.sprout_stage >= 6) {
         console.log("displaying grown btn positions");
         hybrid_btn.style.display = 'none';
         water_btn.style.display = 'none';
+        seed_btn.style.display = 'none';
+        info_btn.style.display = 'block';
+        close_btn.style.display = 'block';
+        cut_btn.style.display = 'block';
+    
 
         info_btn.style.display = 'absolute';
         info_btn.style.left = (plotRect.left - canvasRect.left + plotRect.width / 2 - info_btn.offsetWidth / 2) + 'px';

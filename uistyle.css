@@ -45,7 +45,6 @@
     margin: auto;
     animation: popup 0.3s ease-out;
     overflow-x: auto;
-    scroll-behavior: smooth;
     scrollbar-width: thin;
     scrollbar-color: #d4cece transparent;
 }
@@ -114,48 +113,6 @@
     width: 120%;
     top: -65%;
     z-index: -1;
-}
-
-
-/* NOTIFICATIONS ======================================================== */
-
-
-#notification-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: flex-end;
-    position: fixed;
-    bottom: 10%;
-    left: 40%;
-    width: 20vw;
-    height: 10vw;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 2;
-    background-color: transparent;
-}
-
-.notification {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: row;
-    text-align: center;
-    font-family: monospace;
-    font-size: 12px;
-    color: #ffffff;
-    background-color: #363636;
-    padding: 5px;
-    border-radius: 3px;
-    text-align: center;
-    animation: fade-notification 3s ease-in-out;
-    gap: 8px;
-    min-width: 200px;
-    max-width: 350px;
-    word-break: break-word;
-    margin: 5px;
 }
 
 .notification img {
@@ -339,15 +296,21 @@
     font-family: monospace;
     z-index: 12;
     background-color: transparent;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+#hybrid_combine_btn:disabled {
     opacity: 0.3;
     pointer-events: none;
+    cursor: not-allowed;
 }
 
 #hybrid_combine_btn img {
     width: 100%;
 }
 
-#hybrid_combine_btn:hover {
+#hybrid_combine_btn:hover:not(:disabled) {
     opacity: 1;
 }
 
@@ -419,4 +382,343 @@
     background-color: #e6e6e6;
     transform: scale(1.05);
     opacity: 1;
+}
+
+/* INFO UI ======================================================== */
+
+#info_container {
+    position: absolute;
+    width: 350px;
+    height: 200px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%); 
+    margin: auto;
+    border: 0px solid black;
+    border-radius: 13px;
+    background-color: white;
+    z-index: 10;
+    display: none;
+    animation: popup-transform 0.3s ease-out;
+}
+
+#info_img {
+    position: absolute;
+    width: 120%;
+    height: 120%;
+    top: -8%;
+    left: -10%;
+    z-index: -1;
+}
+
+#info_container #close_info_btn {
+    position: absolute;
+    top: -50px;
+    width: 60px;
+    right: -7%;
+    margin: 0 12px;
+    border: 0px solid;
+    background-color: transparent;
+    cursor: pointer;
+    z-index: 10;
+}
+
+#info_container #close_info_btn img {
+    width: 100%;
+    height: 100%;
+}
+
+#info_container #plot_name {
+    position: absolute;
+    width: 150px;
+    height: 30px;
+    top: -56px;
+    left: 22%;
+    background-color: transparent;
+    border: 0px solid;
+    transform: translateX(-50%);
+    font-size: 20px;
+}
+
+#info_container #sprout_img {
+    position: absolute;
+    top: -15px;
+    right: 45%;
+    width: 230px;
+}
+
+#info_container #info_content {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: transparent;
+    width: 180px;
+    top: 25px;
+    right: -20%;
+    transform: translateX(-50%);
+    font-size: 10px;
+    gap: 2px;
+    margin: 0 5px;
+}
+
+#info_container #info_content h2 {
+    font-size: 12px;
+    margin: 5px 10px;
+    margin-bottom: 0px;
+    background-color: #e6e6e6;
+    padding: 3px 5px;
+}
+
+#info_container #info_content p {
+    font-size: 10px;
+    margin: 3px 20px;
+}
+
+#growth-scale {
+    position: absolute;
+    width: 350px;
+    left: 10%;
+    top: 200px;
+    transform: translateX(-50%); 
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    gap: 10px;
+    margin: auto;
+    background-color: #e6e6e6;
+    border-radius: 10px;
+    border: 0px solid;
+    margin: 0 10px;
+    cursor: default;
+}
+
+#growth_seed_bg {
+    position: absolute;
+    width: 110%;
+    top: -20%;
+    left: -5%;
+    z-index: -1;
+}
+
+.progress {
+    background: rgb(0, 0, 0);
+    justify-content: flex-start;
+    border-radius: 100px;
+    align-items: center;
+    position: relative;
+    padding: 5px;
+    display: flex;
+    width: 200px;
+  }
+
+.progress-value {
+  box-shadow: 0 10px 40px -10px #fff;
+  border-radius: 100px;
+  background: #fff;
+  height: 10px;
+  width: 15px;
+  z-index: 10;
+}
+
+#growth_seed_img {
+    width: 30px;
+    height: 30px;
+}
+
+#growth_flower_img {
+    width: 50px;
+    height: 50px;
+}
+
+/* NOTEPAD ======================================================== */
+
+#notepad {
+    position: absolute;
+    width: 350px;
+    height: 500px;
+    background-color: #e6e6e6;
+    border-radius: 10px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    animation: popup-transform 0.3s ease-out;
+}
+#notepad_img, #notepad_deco {
+    position: absolute;
+    width: 480px;
+    top: 48%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+    opacity: 0.8;
+}
+
+#notepad_deco {
+    z-index: 5;
+    pointer-events: none;
+}
+
+#close_notepad_btn {
+    position: absolute;
+    bottom: -40px;
+    width: 60px;
+    right: -4%;
+    margin: 0 14px;
+    font-size: 14px;
+    font-family: monospace;
+    font-weight: bold;
+    border: 3px solid;
+    color: #495057;
+    background-color: #e8ebe9;
+    box-shadow: #e1dad5 2px 2px 0px 0px;
+}
+
+#close_notepad_btn:hover {
+    cursor: pointer;
+    transform: scale(1.05);
+}
+
+#np_btns {
+    position: absolute;
+    top: 30%;
+    right: -49%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    background-color: transparent;
+    width: 300px;
+    height: 50px;
+    transform: rotate(90deg);
+    z-index: 10;
+}
+
+.np_btn {
+    background-color: transparent;
+    border: 0px solid;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: monospace;
+    font-weight: bold;
+}
+
+#np_content {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+}
+
+#np_title {
+    font-size: 24px;
+    font-family: monospace;
+    font-weight: bold;
+    text-decoration: underline;
+    position: absolute;
+    top: 8%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#np_subtitle {
+    font-size: 18px;
+    font-family: monospace;
+    font-weight: bold;
+    position: absolute;
+    padding: 3px 5px;
+    border-radius: 5px;
+    background-color: #ffffff;
+    top: 20%;
+    left: 20%;
+    transform: translateX(-50%);
+}
+
+#np_flower_list {
+    width: 90%;
+    height: 75%;
+    position: absolute;
+    top: 18%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    background-color: transparent;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scroll-behavior: smooth;
+    scrollbar-color: #d4cece transparent;
+}
+
+.np_flower_item {
+    width: 90%;
+    padding: 10px 0;
+    border-radius: 10px;
+    background-color: #eeeeee;
+}
+
+
+
+.np_flower_container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.np_flower_name_container {
+    width: 92%;
+    padding: 0 10px;
+
+}
+
+.np_flower_item_data {
+    width: 70%;
+}
+.np_flower_img {
+    width: 100px;
+}
+
+.np_data_title {
+    font-size: 12px;
+    font-family: monospace;
+    font-weight: bold;
+    margin: 5px 0;
+}
+
+.np_flower_item p {
+    font-size: 12px;
+    margin: 0;
+}
+
+.np_flower_name {
+    font-weight: bold;
+    padding: 3px 5px;
+    background-color: #ffffff;
+    border-radius: 5px;
+}
+
+#bottom-blur {
+    position: absolute;
+    width: 90%;
+    height: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 10px;
+    background-color: #ffffff;
+    filter: blur(10px);
+    z-index: 1;
 }

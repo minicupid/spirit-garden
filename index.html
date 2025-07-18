@@ -14,6 +14,8 @@
 
     <div id = "canvas">
 
+        <div id = "game_paused"> game paused </div>
+
         <div id = "garden_ui">
             <h2> garden </h2>
             <div id = "garden_items">
@@ -114,10 +116,65 @@
         </div>
     </div>
 
+    <button id = "notepad_btn"> <img src = "assets/btns/notepad.png"> </button>
+    <div id = "notepad">
+        <img id = "notepad_img" src = "assets/notepadUi.png">
+        <img id = "notepad_deco" src = "assets/notepadUi_deco.png">
+        <button id = "close_notepad_btn"> close </button>
+        <div id = "bottom-blur"></div>
+        <div id = "np_btns">
+            <button id = "basic_flowers_btn" class = "np_btn"> basic </button>
+            <button id = "mystic_flowers_btn" class = "np_btn"> mystic </button>
+            <button id = "ethereal_flowers_btn" class = "np_btn"> ethereal </button>
+        </div>
+        <div id = "np_content">
+            <div id = "np_title"> discovery </div>
+
+            <div id = "np_flower_list">
+                <div class = "np_flower_item">
+                    <div class = "np_flower_name_container">
+                        <p class = "np_flower_name"> rose shards </p>
+                    </div>
+                    <div class = "np_flower_container">
+                        <img class = "np_flower_img" src = "assets/flowers/red.gif">
+                        <div class = "np_flower_item_data">
+                            <div class = "np_data_title"> parents </div>
+                            <p class = "np_flower_parents"> red seed <br> blue + yellow seed</p>
+                            <div class = "np_data_title"> attracts </div>
+                            <p class = "np_flower_attracts"> teardrop spirit <br> ??? </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div id = "notification-container">
         <p id = "notification" style = "display: none;">
-            test
+    </div>
+
+    <div id = "info_container">
+        <img id = "info_img" src = "assets/infoUi.png">
+        <h2 id = "plot_name"> plot one ✦ ✦ ✦ </h2>
+        <button id = "close_info_btn"> <img src = "assets/btns/close.png"> </button>
+        <img id = "sprout_img" src = "assets/growth/2.gif">
+
+        <div id = "info_content">
+        <h2> parent seeds: </h2>
+            <p id = "parent_seeds"> red+ x blue+ </p>
+        <h2> blooms into: </h2>
+            <p id = "bloom_into"> fragments of the wind <br> ??? </p>
+        <h2> can drop: </h2>
+            <p id = "can_drop"> red seed <br> ??? </p>
+
+        <div id = "growth-scale">
+            <img id = "growth_seed_bg" src = "assets/infoUi2.png">
+            <img id = "growth_seed_img" src = "assets/seeds/brown_seed.png">
+            <div class="progress">
+                <span class="progress-value" id="growth-progress-value" style="width:10%"></span>
+            </div>
+            <img id = "growth_flower_img" src = "assets/growth/5.gif">
         </div>
+
     </div>
 
 </body>

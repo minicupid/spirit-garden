@@ -21,6 +21,20 @@
     }
 }
 
+@keyframes popup-transform {
+    0% {
+        transform: translate(-50%, -50%) scale(0.5);
+        opacity: 0;
+    }
+    90% {
+        transform: translate(-50%, -50%) scale(1.05);
+    }
+    100% {  
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+}
+
 .hidden {
     display: none;
     transition: opacity 0.3s ease-in-out;

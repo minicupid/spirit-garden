@@ -20,13 +20,30 @@ function selectPlot(plot) {
         const seed = seed_types[dirt_plot.seed_type];
         console.log("seed:", seed);
 
-        // show buttons after clicking on dirt with sprout
-        interaction_btns.classList.remove('hidden');
-        seed_btn.classList.add('hidden');
-        info_btn.classList.remove('hidden');
-        water_btn.classList.remove('hidden');
-        hybrid_btn.classList.remove('hidden');
-        cut_btn.classList.remove('hidden');
+        // Check if fully grown (stage 6)
+        if (dirt_plot.sprout_stage === 6) {
+            // show grown flower buttons
+            interaction_btns.classList.remove('hidden');
+            seed_btn.classList.add('hidden');
+            info_btn.classList.remove('hidden');
+            water_btn.classList.add('hidden');
+            hybrid_btn.classList.remove('hidden');
+            cut_btn.classList.remove('hidden');
+        } else {
+            // show growing plant buttons
+            interaction_btns.classList.remove('hidden');
+            seed_btn.classList.add('hidden');
+            info_btn.classList.remove('hidden');
+            
+            if (dirt_plot.growth_paused) {
+                water_btn.classList.remove('hidden');
+            } else {
+                water_btn.classList.add('hidden');
+            }
+            
+            hybrid_btn.classList.remove('hidden');
+            cut_btn.classList.remove('hidden');
+        }
     }
     else {
         // show interaction_btns to display seed_btn when no sprout
@@ -235,8 +252,9 @@ function startStageTimer(plot_id) {
         // Clear timer
         dirt_plot.stage_timer = null;
         
-        // Start next stage if not done
-        if (dirt_plot.sprout_stage < 6) {
+        // Start next stage if not done - check AFTER advanceSprout
+        const updated_plot = dirt_plots.find(plot => plot.id === plot_id);
+        if (updated_plot && updated_plot.sprout_stage < 6 && !updated_plot.growth_paused) {
             startStageTimer(plot_id);
         }
     }, 20000);
@@ -282,6 +300,7 @@ function advanceSprout(plot_id) {
         if (dirt_plot.sprout_stage === 6) {
             const dirt_plot = dirt_plots.find(plot => plot.id === plot_id);
             if (dirt_plot) {
+                hideUI();
                 // check if hybrid
                 if (dirt_plot.hybrid) {
                     const seed1 = seed_types[dirt_plot.parents[0]];
@@ -324,17 +343,18 @@ function advanceSprout(plot_id) {
             }
         } 
         
-        else if (dirt_plot && dirt_plot.sprout_stage === 2 || dirt_plot && dirt_plot.sprout_stage === 4) {
-            console.log(plot_id, "needs water");
-            waterPlease(plot_id);
-            return;  
-        } 
-
         else {
             const stage_info = sprout_stages.find(stage => stage.stage === dirt_plot.sprout_stage);
             if (stage_info && stage_info.img) {
                 plot_element.innerHTML = `<img src="${stage_info.img}" alt="${stage_info.name}">`;
                 advanceAnimation(plot_element);
+            }
+            
+            // check if it needs water
+            if (dirt_plot.sprout_stage === 2 || dirt_plot.sprout_stage === 4) {
+                console.log(plot_id, "needs water");
+                waterPlease(plot_id);
+                return;  
             }
         }
         
@@ -369,6 +389,13 @@ function advanceSprout(plot_id) {
         }, 2500);
         }
 
+        // stage progress bar
+        const progressValue = document.getElementById('growth-progress-value');
+        if (progressValue) {
+            const percent = Math.max(0, Math.min(100, (dirt_plot.sprout_stage / 6) * 100));
+            progressValue.style.width = percent + '%';
+        }
+
         return;
     }
 }
@@ -387,16 +414,14 @@ function waterPlease(plot_id) {
     
     plot_element.style.position = 'relative';
     plot_element.appendChild(water_notification);
-    
-    water_btn.current_plot = plot_id;
 }
 
 // water button listener
 water_btn.addEventListener('click', () => {
-    if (!water_btn.current_plot) return;
+    if (!selected_plot) return;
     
-    const dirt_plot = dirt_plots.find(plot => plot.id === water_btn.current_plot);
-    if (!dirt_plot) return;
+    const dirt_plot = dirt_plots.find(plot => plot.id === selected_plot.id);
+    if (!dirt_plot || !dirt_plot.growth_paused) return;
     
     const water_notification = dirt_plot.element.querySelector('.water_notification');
     if (water_notification) water_notification.remove();
@@ -409,12 +434,11 @@ water_btn.addEventListener('click', () => {
     
     setTimeout(() => overlay.remove(), 3000);
     
-    resumeStageGrowth(water_btn.current_plot);
+    resumeStageGrowth(selected_plot.id);
     notification('plant watered! 💧', 'assets/notif.png');
     hideUI();
-    
-    water_btn.current_plot = null;
 });
+
 
 // GET SPROUT INFO ========================================================
 
@@ -449,4 +473,29 @@ function notification(message, img) {
             notification.remove();
         }, 2500);
     }, 3000);
+}
+
+// pause all growth timers for all plots
+function pauseGame() {
+    dirt_plots.forEach(plot => {
+        if (plot.stage_timer) {
+            clearTimeout(plot.stage_timer);
+            plot.stage_timer = null;
+            plot.growth_paused = true;
+        }
+    });
+    const game_paused = document.getElementById('game_paused');
+    game_paused.style.display = 'block';
+}
+
+// resume all growth timers for all plots
+function resumeGame() {
+    dirt_plots.forEach(plot => {
+        if (plot.growth_paused && plot.has_sprout && plot.sprout_stage < 6) {
+            plot.growth_paused = false;
+            startStageTimer(plot.id);
+        }
+    });
+    const game_paused = document.getElementById('game_paused');
+    game_paused.style.display = 'none';
 }

@@ -82,23 +82,24 @@ let player_seeds = [
 ]
 
 const flower_types = {
-    red: { id: "red", name: "rose shards", img: "assets/flowers/red.gif", ethereal: false },
-    blue: { id: "blue", name: "azure fluid", img: "assets/flowers/blue.gif", ethereal: false },
-    green: { id: "green", name: "fragments of the wind", img: "assets/flowers/green.gif", ethereal: false },
-    yellow: { id: "yellow", name: "sunboy bloom", img: "assets/flowers/yellow.gif", ethereal: false },
-    brown: { id: "brown", name: "odd peony", img: "assets/flowers/brown.gif", ethereal: false },
-    grey: { id: "grey", name: "ocean vapor", img: "assets/flowers/grey.gif", ethereal: true },
-    purple: { id: "purple", name: "purple flower", img: "assets/flowers/purple.gif", ethereal: false },
-    beige: { id: "beige", name: "beige flower", img: "assets/flowers/beige.gif", ethereal: false },
+    red: { id: "red", name: "rose shards", img: "assets/flowers/red.gif", family: "basic", attracts: "tearripple" },
+    purple: { id: "purple", name: "purple flower", img: "assets/flowers/purple.gif", family: "basic", attracts: "cloudwisp" },
+    beige: { id: "beige", name: "beige flower", img: "assets/flowers/beige.gif", family: "basic", attracts: "sundroplet" },
+    yellow: { id: "yellow", name: "sunboy bloom", img: "assets/flowers/yellow.gif", family: "basic", attracts: "lumendew" },
+    brown: { id: "brown", name: "odd peony", img: "assets/flowers/brown.gif", family: "basic", attracts: "willowroot" },
+    blue: { id: "blue", name: "azure fluid", img: "assets/flowers/blue.gif", family: "mystic", attracts: "opalember" },
+    green: { id: "green", name: "fragments of the wind", img: "assets/flowers/green.gif", family: "mystic", attracts: "mosslight" },
+    grey: { id: "grey", name: "ocean vapor", img: "assets/flowers/grey.gif", family: "ethereal", attracts: "glassmist" },
 
-    red_rare: { id: "red+", name: "rose shards+", img: "assets/flowers/red.gif", ethereal: false },
-    blue_rare: { id: "blue+", name: "azure fluid+", img: "assets/flowers/blue.gif", ethereal: false },
-    green_rare: { id: "green+", name: "fragments of the wind+", img: "assets/flowers/green.gif", ethereal: false },
-    yellow_rare: { id: "yellow+", name: "sunboy bloom+", img: "assets/flowers/yellow.gif", ethereal: false },
-    brown_rare: { id: "brown+", name: "odd peony+", img: "assets/flowers/brown.gif", ethereal: false },
-    grey_rare: { id: "grey+", name: "ocean vapor+", img: "assets/flowers/grey.gif", ethereal: true },
-    purple_rare: { id: "purple+", name: "purple flower+", img: "assets/flowers/purple.gif", ethereal: false },
-    beige_rare: { id: "beige+", name: "beige flower+", img: "assets/flowers/beige.gif", ethereal: false },
+    red_rare: { id: "red+", name: "rose shards+", img: "assets/flowers/red.gif", family: "basic", attracts: "tearripple" },
+    purple_rare: { id: "purple+", name: "purple flower+", img: "assets/flowers/purple.gif", family: "basic", attracts: "cloudwisp" },
+    beige_rare: { id: "beige+", name: "beige flower+", img: "assets/flowers/beige.gif", family: "basic", attracts: "sundroplet" },
+    yellow_rare: { id: "yellow+", name: "sunboy bloom+", img: "assets/flowers/yellow.gif", family: "basic", attracts: "lumendew" },
+    brown_rare: { id: "brown+", name: "odd peony+", img: "assets/flowers/brown.gif", family: "basic", attracts: "willowroot" },
+    blue_rare: { id: "blue+", name: "azure fluid+", img: "assets/flowers/blue.gif", family: "mystic", attracts: "opalember" },
+    green_rare: { id: "green+", name: "fragments of the wind+", img: "assets/flowers/green.gif", family: "mystic", attracts: "mosslight" },
+    grey_rare: { id: "grey+", name: "ocean vapor+", img: "assets/flowers/grey.gif", family: "ethereal", attracts: "glassmist" },
+
 }
 
 const hybrid_recipes = [
@@ -115,12 +116,21 @@ let hybrid_selected_seed = null;
 let hybrid_recipe = null;
 
 const discovered_seeds = {
-    red: false,
-    blue: false,
+    red: true,
+    blue: true,
     green: false,
-    yellow: false,
-    brown: false,
+    yellow: true,
+    brown: true,
     grey: false,
     purple: false,
     beige: false,
+    
+    red_rare: false,
+    blue_rare: false,
+    green_rare: false,
+    yellow_rare: false,
+    brown_rare: false,
+    grey_rare: false,
+    purple_rare: false,
+    beige_rare: false,
 }
