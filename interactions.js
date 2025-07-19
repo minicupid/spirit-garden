@@ -1,11 +1,11 @@
 // HYBRID UI ========================================================
 
+let info_current_plot = null;
+
 function openHybridUI(plot) {
     showBackground();
     hideUI();
-    pauseGame();
-    console.log('game paused for hybrid view');
-    pauseStageGrowth(plot.id);
+    pausePlotById(plot.id);
     // set up ui
     hybrid_current_plot = plot;
     hybrid_ui.style.display = 'flex';
@@ -46,6 +46,9 @@ hybrid_new_seed.onclick = () => {
 // officially hybridize
 hybrid_combine_btn.onclick = () => {
     combineHybrid();
+    if (hybrid_current_plot) {
+        resumePlotById(hybrid_current_plot.id);
+    }
 };
 
 function showHybridSidebar() {
@@ -68,6 +71,17 @@ function showHybridSidebar() {
                     checkHybridResult();
                 };
                 hybrid_sidebar_seeds.appendChild(btn);
+                btn.addEventListener('click', () => {
+                    click.currentTime = 0;
+                    click.play();
+                });
+                btn.addEventListener('mouseover', () => {
+                    item_hover.currentTime = 0;
+                    item_hover.play();
+                });
+                btn.addEventListener('mouseout', () => {
+                    item_hover.pause();
+                });
             } else {
                 console.error(`seed type not found: ${seed.id}`);
             }
@@ -132,15 +146,18 @@ function checkHybridResult() {
 
 function closeHybridUI() {
     hybrid_ui.style.display = 'none';
-    resumeGame();
+    if (hybrid_current_plot) {
+        resumePlotById(hybrid_current_plot.id);
+    }
     console.log('game resumed after hybrid view');
-    resumeStageGrowth(hybrid_current_plot.id);
 }
 
 // HYBRID COMBINE FUNCTION ========================================================
 
 function combineHybrid() {
-    pauseStageGrowth(hybrid_current_plot.id);
+    if (hybrid_current_plot) {
+        pausePlotById(hybrid_current_plot.id);
+    }
     if (!hybrid_recipe || !hybrid_current_plot) {
         console.log("no recipe or plot selected");
         return;
@@ -160,6 +177,7 @@ function combineHybrid() {
     console.log("plot hybrid status:", dirt_plot.hybrid);
     
     closeHybridUI();
+    unblurBg();
     
     const seed1 = seed_types[dirt_plot.seed_type];
     const seed2 = seed_types[hybrid_selected_seed];
@@ -171,23 +189,43 @@ function combineHybrid() {
 function cutSprout(plot_id) {
     const dirt_plot = dirt_plots.find(plot => plot.id === plot_id);
     if (dirt_plot) {
+        swish.play();
         // flower return calculation
         if (dirt_plot.sprout_stage === 6) {
-            const flower_type = flower_types[dirt_plot.seed_type];
+            // if successful hybrid, use hybrid_result, otherwise use seed_type
+            const flower_seed_type = dirt_plot.hybrid_result || dirt_plot.seed_type;
+            const flower_type = flower_types[flower_seed_type];
+            
             if (flower_type) {
-                const flower_return = Math.floor(Math.random() * (2 - 0));
-                console.log("added", flower_return, flower_type.name, "to inventory"); // log flower return
+                // 40% chance to return rare seed, 60% chance to return normal seed
+                const rare_chance = Math.random();
+                const seed_id = rare_chance < 0.4 ? `${flower_seed_type}_rare` : flower_seed_type;
+                
+                // find or create the seed slot if it doesn't exist
+                let seed_slot = player_seeds.find(seed => seed.id === seed_id);
+                if (!seed_slot) {
+                    // new seed slot
+                    seed_slot = { id: seed_id, amount: 0, is_rare: seed_id.includes('_rare') };
+                    player_seeds.push(seed_slot);
+                }
+                seed_slot.amount++;
+                
+                if (seed_id.includes('_rare')) {
+                    notification(`you found a rare ${seed_id.replace('_rare','')} seed! <br> you can try hybridizing it.`, `assets/notif.png`);
+                } else {
+                    notification(`${seed_id} seed added to inventory.`, `assets/notif.png`);
+                }
+                console.log(`returned ${seed_id.replace('_rare','+')} to inventory`);
             } else {
-                console.error(`flower type not found for seed: ${dirt_plot.seed_type}`);
+                console.error(`flower type not found for seed: ${flower_seed_type}`);
             }
         }
         else {
             const seed_slot = player_seeds.find(seed => seed.id === dirt_plot.seed_type);
             seed_slot.amount ++;
-            console.log("returned 1", dirt_plot.seed_type, "to inventory:", seed_slot.amount); // log seed return
-
+            notification(`${dirt_plot.seed_type.replace('_rare','+')} seed returned.`, `assets/notif.png`); // notification
+            console.log("returned a", dirt_plot.seed_type, "to inventory");
         }
-
 
         // reset growth timer
         if (dirt_plot.growthTimer) {
@@ -243,11 +281,13 @@ function cutSprout(plot_id) {
 // INFO FUNCTION ========================================================
 
 function showPlotInfo(dirt_plot) {
+    info_current_plot = dirt_plot;
+    
     const plot_number = dirt_plot.id.slice(-1); // grab last # of plot
     const is_rare = seed_types[dirt_plot.seed_type]?.id.includes('+');
-    const plot_name = `plot ${plot_number}${is_rare ? ' ✦ ✦ ✦' : ''}`; // add rare indicator
+    const is_hybrid = dirt_plot.hybrid && dirt_plot.parents?.length === 2; // 2 parents = hybrid 
+    const plot_name = `plot ${plot_number}${is_hybrid ? ' [hybridized]' : is_rare ? ' [can hybridize]' : ''}`; // add hybridized indicator or rare indicator
     
-    const is_hybrid = dirt_plot.hybrid && dirt_plot.parents?.length === 2; // 2 parents = hybrid
     const hybrid_recipe = is_hybrid ? hybrid_recipes.find(r => 
         r.parents.includes(dirt_plot.parents[0]) && r.parents.includes(dirt_plot.parents[1])
     ) : null;
@@ -300,7 +340,7 @@ function showPlotInfo(dirt_plot) {
     }
     
     if (dirt_plot.hybrid) {
-        document.getElementById('growth_flower_img').src = 'assets/undiscovered.gif';
+        document.getElementById('growth_flower_img').src = 'assets/undiscovered_small.gif';
     } else {
         const flower = flower_types[dirt_plot.seed_type];
         if (flower) {
@@ -309,8 +349,15 @@ function showPlotInfo(dirt_plot) {
     }
     
     document.getElementById('info_container').style.display = 'block';
-    pauseGame();
-    console.log('game paused for info view');
+    pausePlotById(dirt_plot.id);
+}
+
+function closeInfoUI() {
+    info_container.style.display = 'none';
+    if (info_current_plot) {
+        resumePlotById(info_current_plot.id);
+    }
+    console.log('game resumed after info view');
 }
 
 // NOTEPAD ========================================================

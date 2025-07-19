@@ -430,14 +430,15 @@
 
 #info_container #plot_name {
     position: absolute;
-    width: 150px;
+    width: 300px;
     height: 30px;
     top: -56px;
-    left: 22%;
+    left: 40%;
     background-color: transparent;
     border: 0px solid;
     transform: translateX(-50%);
     font-size: 20px;
+    text-shadow: 1px 1px 1px #ffffff;
 }
 
 #info_container #sprout_img {
@@ -498,7 +499,7 @@
 #growth_seed_bg {
     position: absolute;
     width: 110%;
-    top: -20%;
+    top: -5%;
     left: -5%;
     z-index: -1;
 }
@@ -545,7 +546,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 10;
-    display: flex;
+    display: none;
     flex-direction: column;
     animation: popup-transform 0.3s ease-out;
 }
@@ -661,6 +662,15 @@
     scrollbar-width: thin;
     scroll-behavior: smooth;
     scrollbar-color: #d4cece transparent;
+}
+
+#np_cover {
+    position: absolute;
+    width: 300px;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
 }
 
 .np_flower_item {

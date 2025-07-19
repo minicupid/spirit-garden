@@ -62,7 +62,7 @@ const seed_types = {
     }
 
 let player_seeds = [
-    { id: "red", amount: 1, is_rare: false },
+    { id: "red", amount: 0, is_rare: false },
     { id: "blue", amount: 0, is_rare: false },
     { id: "green", amount: 0, is_rare: false },
     { id: "yellow", amount: 1, is_rare: false },
@@ -71,14 +71,14 @@ let player_seeds = [
     { id: "purple", amount: 0, is_rare: false },
     { id: "beige", amount: 0, is_rare: false },
 
-    { id: "red_rare", amount: 1, is_rare: true },
-    { id: "blue_rare", amount: 1, is_rare: true },
-    { id: "green_rare", amount: 2, is_rare: true },
-    { id: "yellow_rare", amount: 1, is_rare: true },
-    { id: "brown_rare", amount: 0, is_rare: true },
+    { id: "red_rare", amount: 0, is_rare: true },
+    { id: "blue_rare", amount: 0, is_rare: true },
+    { id: "green_rare", amount: 0, is_rare: true },
+    { id: "yellow_rare", amount: 2, is_rare: true },
+    { id: "brown_rare", amount: 1, is_rare: true },
     { id: "grey_rare", amount: 0, is_rare: true },
     { id: "purple_rare", amount: 0, is_rare: true },
-    { id: "beige_rare", amount: 1, is_rare: true },
+    { id: "beige_rare", amount: 0, is_rare: true },
 ]
 
 const flower_types = {
@@ -116,8 +116,8 @@ let hybrid_selected_seed = null;
 let hybrid_recipe = null;
 
 const discovered_seeds = {
-    red: true,
-    blue: true,
+    red: false,
+    blue: false,
     green: false,
     yellow: true,
     brown: true,

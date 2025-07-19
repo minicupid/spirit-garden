@@ -1,6 +1,16 @@
 // when ui / btn open + user clicks outside, hide elements
 background.addEventListener('click', hideUI);
 
+const blurElement = document.getElementById('blur');
+
+function blurBg() {
+    blurElement.style.display = 'block';
+}
+
+function unblurBg() {
+    blurElement.style.display = 'none';
+}
+
 function hideUI() {
     // hide seed UI if visible
     if (seed_ui.style.display === 'flex') {
@@ -10,7 +20,14 @@ function hideUI() {
     // hide hybrid UI if visible
     if (hybrid_ui.style.display === 'flex') {
         hybrid_ui.style.display = 'none';
-        resumeStageGrowth(hybrid_current_plot.id);
+        if (hybrid_current_plot) {
+            resumePlotById(hybrid_current_plot.id);
+        }
+    }
+
+    //hide info ui if visible
+    if (info_container.style.display === 'flex') {
+        info_container.style.display = 'none';
     }
     
     // hide buttons if visible
@@ -78,31 +95,40 @@ info_btn.addEventListener('click', () => {
     console.log("dirt plot:", dirt_plot);
     showPlotInfo(dirt_plot);
     hideUI();
+    blurBg();
 });
 
 // close info ui button
 const close_info_btn = document.getElementById('close_info_btn');
 if (close_info_btn) {
     close_info_btn.addEventListener('click', () => {
-        const info_container = document.getElementById('info_container');
-        if (info_container) {
-            info_container.style.display = 'none';
-        }
-        resumeGame();        hideUI();
+        closeInfoUI();
+        unblurBg();
+        hideUI();
     });
 }
 
 hybrid_btn.addEventListener('click', () => {
-    openHybridUI(selected_plot);
+    if (!selected_plot) return;
+    const dirt_plot = dirt_plots.find(plot => plot.id === selected_plot.id);
+    if (dirt_plot && dirt_plot.hybrid) {
+        notification("you already attempted hybridizing this seed!", "assets/btns/hybridize.png");
+    } else {
+        blurBg();
+        openHybridUI(selected_plot);
+    }
 });
 
 hybrid_cancel_btn.addEventListener('click', () => {
     closeHybridUI();
+    unblurBg();
 });
 
 close_notepad_btn.addEventListener('click', () => {
     const notepad = document.getElementById('notepad');
+
     if (notepad) {
+        unblurBg();
         notepad.style.display = 'none';
     }
     hideUI();
@@ -110,8 +136,17 @@ close_notepad_btn.addEventListener('click', () => {
 
 notepad_btn.addEventListener('click', () => {
     const notepad = document.getElementById('notepad');
+
     if (notepad) {
+        blurBg();
         notepad.style.display = 'flex';
+        const np_flower_list = document.getElementById('np_flower_list');
+        if (np_flower_list) {
+            np_flower_list.innerHTML = '<img id = "np_cover" src = "assets/notepadUi_cover.png">';
+        }
     }
     hideUI();
+    if (info_container.style.display === 'block') {
+        info_container.style.display = 'none';
+    }
 });

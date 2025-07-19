@@ -7,17 +7,29 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="animations.css">
     <link rel="stylesheet" href="uistyle.css">
+    <link rel="icon" type="image/png" href="assets/seeds/brown_seed.png">
 </head>
 <body>
+    <div id = "clock"> </div>
     <div id = "background">
     </div>
 
+    <div id="toolbar">
+        <button id = "notepad_btn" class = "sound_soft_click"> <img src = "assets/btns/notepad.png"> </button>
+        <div id = "nowplaying_footer">
+            <p id = "nowplaying_text"> now playing: "where leaves sing" —— stillsounds </p>
+            <p id = "nowplaying_text2"> now playing: "where leaves sing" ——  stillsounds </p>
+        </div>
+    </div>
+
+    <div id = "blur"></div>
+
     <div id = "canvas">
 
-        <div id = "game_paused"> game paused </div>
+        <div id = "game_paused"> </div> <!-- removed display -->
 
         <div id = "garden_ui">
-            <h2> garden </h2>
+            <h2> discover all the flowers in your notepad by hybridizing rare+ seeds together. <br> get rare+ seeds by harvesting flowers. </h2>
             <div id = "garden_items">
                 
             </div>
@@ -25,37 +37,37 @@
 
         <div id = "garden">
             <img id = "garden_img" src = "assets/garden.png">
-            <button id = "dirt1" class = "dirt" alt = "plot 1">
+            <button id = "dirt1" class = "dirt sound_click" alt = "plot 1">
                 <img src = "assets/dirt.png">
             </button>
-            <button id = "dirt2" class = "dirt" alt = "plot 2">
+            <button id = "dirt2" class = "dirt sound_click" alt = "plot 2">
                 <img src = "assets/dirt.png">
             </button>
-            <button id = "dirt3" class = "dirt" alt = "plot 3">
+            <button id = "dirt3" class = "dirt sound_click" alt = "plot 3">
                 <img src = "assets/dirt.png">
             </button>
-            <button id = "dirt4" class = "dirt" alt = "plot 4">
+            <button id = "dirt4" class = "dirt sound_click" alt = "plot 4">
                 <img src = "assets/dirt.png">
             </button>
         </div>
         
         <div id = "interaction_btns" class = "hidden"> <!-- ============================== -->
-            <button id = "seed_btn" class = "interaction_btn">
+            <button id = "seed_btn" class = "interaction_btn sound_soft_click sound_pop_hover">
                 <img src = "assets/btns/plant.png">
             </button>
-            <button id = "info_btn" class = "interaction_btn">
+            <button id = "info_btn" class = "interaction_btn sound_soft_click sound_pop_hover">
                 <img src = "assets/btns/info.png">
             </button>
-            <button id = "water_btn" class = "interaction_btn">
+            <button id = "water_btn" class = "interaction_btn sound_pop_hover">
                 <img src = "assets/btns/water.png">
             </button>
-            <button id = "hybrid_btn" class = "interaction_btn">
+            <button id = "hybrid_btn" class = "interaction_btn sound_soft_click sound_pop_hover">
                 <img src = "assets/btns/hybridize.png">
             </button>
-            <button id = "cut_btn" class = "interaction_btn">
+            <button id = "cut_btn" class = "interaction_btn sound_pop_hover">
                 <img src = "assets/btns/cut.png">
             </button>
-            <button id = "close_btn" class = "interaction_btn">
+            <button id = "close_btn" class = "interaction_btn sound_pop_hover">
                 <img src = "assets/btns/close.png">
             </button>
         </div>
@@ -67,7 +79,7 @@
             <div id = "seed_items">
                 
             </div>
-            <button id = "seed_close_btn"> close pouch </button>
+            <button id = "seed_close_btn" class = "sound_ui_pop"> close pouch </button>
         
         </div>
 
@@ -83,7 +95,7 @@
                     <div id = "hybrid_old_seed" class = "hybrid_seed">
                         <img src = "assets/flowers/green.gif">
                     </div>
-                    <div id = "hybrid_new_seed" class = "hybrid_seed">
+                    <div id = "hybrid_new_seed" class = "hybrid_seed sound_click">
                         <img id = "hybrid_add_btn" src = "assets/add.png" alt = "add seed">
                     </div>
                 </div>
@@ -93,12 +105,12 @@
                     </div>
                 </div>
             </div>
-            <button id = "hybrid_cancel_btn"> <img src = "assets/btns/cancel.png"> </button>
-            <button id = "hybrid_combine_btn"> <img src = "assets/btns/combine.png"> </button>
+            <button id = "hybrid_cancel_btn" class = "sound_ui_pop"> <img src = "assets/btns/cancel.png"> </button>
+            <button id = "hybrid_combine_btn" class = "sound_soft_click"> <img src = "assets/btns/combine.png"> </button>
         </div>
 
         <div id = "hybrid_sidebar">
-            <img id = "hybrid_sidebar_img" src = "assets/hyrbidUi_B.gif">
+            <img id = "hybrid_sidebar_img" src = "assets/hybridUi_B.gif">
             <div id = "hybrid_sidebar_seeds">
                 
             </div>
@@ -116,46 +128,32 @@
         </div>
     </div>
 
-    <button id = "notepad_btn"> <img src = "assets/btns/notepad.png"> </button>
     <div id = "notepad">
         <img id = "notepad_img" src = "assets/notepadUi.png">
         <img id = "notepad_deco" src = "assets/notepadUi_deco.png">
-        <button id = "close_notepad_btn"> close </button>
+        <button id = "close_notepad_btn" class = "sound_ui_pop"> close </button>
         <div id = "bottom-blur"></div>
         <div id = "np_btns">
-            <button id = "basic_flowers_btn" class = "np_btn"> basic </button>
-            <button id = "mystic_flowers_btn" class = "np_btn"> mystic </button>
-            <button id = "ethereal_flowers_btn" class = "np_btn"> ethereal </button>
+            <button id = "basic_flowers_btn" class = "np_btn sound_click"> basic </button>
+            <button id = "mystic_flowers_btn" class = "np_btn sound_click"> mystic </button>
+            <button id = "ethereal_flowers_btn" class = "np_btn sound_click"> ethereal </button>
         </div>
         <div id = "np_content">
             <div id = "np_title"> discovery </div>
 
             <div id = "np_flower_list">
-                <div class = "np_flower_item">
-                    <div class = "np_flower_name_container">
-                        <p class = "np_flower_name"> rose shards </p>
-                    </div>
-                    <div class = "np_flower_container">
-                        <img class = "np_flower_img" src = "assets/flowers/red.gif">
-                        <div class = "np_flower_item_data">
-                            <div class = "np_data_title"> parents </div>
-                            <p class = "np_flower_parents"> red seed <br> blue + yellow seed</p>
-                            <div class = "np_data_title"> attracts </div>
-                            <p class = "np_flower_attracts"> teardrop spirit <br> ??? </p>
-                        </div>
-                    </div>
-                </div>
+                <img id = "np_cover" src = "assets/notepadUi_cover.png">
             </div>
         </div>
     </div>
     <div id = "notification-container">
-        <p id = "notification" style = "display: none;">
+        <p id = "notification" style = "display: none;"> </p>
     </div>
 
     <div id = "info_container">
         <img id = "info_img" src = "assets/infoUi.png">
         <h2 id = "plot_name"> plot one ✦ ✦ ✦ </h2>
-        <button id = "close_info_btn"> <img src = "assets/btns/close.png"> </button>
+        <button id = "close_info_btn" class = "sound_ui_pop"> <img src = "assets/btns/close.png"> </button>
         <img id = "sprout_img" src = "assets/growth/2.gif">
 
         <div id = "info_content">
@@ -177,10 +175,25 @@
 
     </div>
 
+    <audio id = "music" src = "assets/music.mp3" loop></audio>
+    <audio id = "item_hover" src = "assets/soundFX/item_hover.mp3"></audio>
+    <audio id = "click" src = "assets/soundFX/btn_click.mp3"></audio>
+    <audio id = "click2" src = "assets/soundFX/btn_click2.mp3"></audio>
+    <audio id = "pop_hover" src = "assets/soundFX/pop_hover.mp3"></audio>
+    <audio id = "soft_click" src = "assets/soundFX/soft_click.mp3"></audio>
+    <audio id = "swish" src = "assets/soundFX/swish.mp3"></audio>
+    <audio id = "ui_pop" src = "assets/soundFX/ui_pop.mp3"></audio>
+    <audio id = "plant_seed_sound" src = "assets/soundFX/plant_seed.mp3"></audio>
+    <audio id = "water_sound" src = "assets/soundFX/water.mp3"></audio>
+    <audio id = "growth_sound" src = "assets/soundFX/growth.mp3"></audio>
+    <audio id = "notif_sound" src = "assets/soundFX/notif.mp3"></audio>
+
 </body>
 <script src = "globalvar.js"></script>
-<script src = "toggles.js"></script>
 <script src="button-positioning.js"></script>
 <script src="script.js"></script>
 <script src="interactions.js"></script>
+<script src = "toggles.js"></script>
+<script src="sounds.js"></script>
+<script src="cycle.js"></script>
 </html>

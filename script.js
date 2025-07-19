@@ -9,6 +9,14 @@ dirt.forEach(dirt => {
 
 let selected_plot = null;
 
+// click for music
+document.addEventListener('click', () => {
+    const music = document.getElementById('music');
+    if (music && music.paused) {
+        music.play();
+    }
+});
+
 function selectPlot(plot) {
     selected_plot = plot; // set selected plot to the clicked dirt plot
     console.log("selected plot:", selected_plot);
@@ -34,11 +42,13 @@ function selectPlot(plot) {
             interaction_btns.classList.remove('hidden');
             seed_btn.classList.add('hidden');
             info_btn.classList.remove('hidden');
-            
-            if (dirt_plot.growth_paused) {
-                water_btn.classList.remove('hidden');
+            water_btn.classList.remove('hidden');
+
+            // check if plot has water_notification
+            if (dirt_plot.element.querySelector('.water_notification')) {
+                water_btn.style.opacity = '1';
             } else {
-                water_btn.classList.add('hidden');
+                water_btn.style.opacity = '0.5';
             }
             
             hybrid_btn.classList.remove('hidden');
@@ -169,6 +179,19 @@ function seedUI() { // shows seed ui with updated seed items
                 event.preventDefault();
                 seed_items.scrollLeft += event.deltaY;
             });
+            btn.addEventListener('mouseover', () => {
+                item_hover.currentTime = 0;
+                item_hover.play();
+            });
+
+            btn.addEventListener('mouseout', () => {
+                item_hover.pause();
+            });
+
+            btn.addEventListener('click', () => {
+                click.currentTime = 0;
+                click.play();
+            });
         }
     });
 
@@ -200,6 +223,8 @@ function plantSeed(seed_id, plot_element) {
         // planting animation stage 0
         const planting_gif = "assets/dirt_plant.gif";
         plot_element.innerHTML = `<img src="${planting_gif}?t=${Date.now()}" alt="planting animation">`; // new gif after 8s
+        plant_seed_sound.currentTime = 0;
+        plant_seed_sound.play();
         
         setTimeout(() => {
             advanceSprout(plot_element.id);
@@ -228,178 +253,6 @@ function plantSeed(seed_id, plot_element) {
     }
 }
 
-// GROWTH PROCESS ========================================================
-
-function growth(plot_id) {
-    const dirt_plot = dirt_plots.find(plot => plot.id === plot_id);
-    if (!dirt_plot) return;
-    if (dirt_plot.sprout_stage >= 6) return;
-
-    // start the first stage timer
-    startStageTimer(plot_id);
-}
-
-function startStageTimer(plot_id) {
-    const dirt_plot = dirt_plots.find(plot => plot.id === plot_id);
-    if (!dirt_plot || dirt_plot.sprout_stage >= 6) return;
-
-    console.log(`starting stage timer for ${plot_id} at stage ${dirt_plot.sprout_stage}`);
-    
-    // Set 20 second timer for current stage
-    dirt_plot.stage_timer = setTimeout(() => {
-        advanceSprout(plot_id);
-
-        // Clear timer
-        dirt_plot.stage_timer = null;
-        
-        // Start next stage if not done - check AFTER advanceSprout
-        const updated_plot = dirt_plots.find(plot => plot.id === plot_id);
-        if (updated_plot && updated_plot.sprout_stage < 6 && !updated_plot.growth_paused) {
-            startStageTimer(plot_id);
-        }
-    }, 20000);
-}
-
-function pauseStageGrowth(plot_id) {
-    const dirt_plot = dirt_plots.find(plot => plot.id === plot_id);
-    if (!dirt_plot || !dirt_plot.stage_timer) return;
-    
-    console.log(`pausing stage growth for ${plot_id}`);
-    
-    // Clear the current timer
-    clearTimeout(dirt_plot.stage_timer);
-    dirt_plot.stage_timer = null;
-    dirt_plot.growth_paused = true;
-}
-
-function resumeStageGrowth(plot_id) {
-    const dirt_plot = dirt_plots.find(plot => plot.id === plot_id);
-    if (!dirt_plot || !dirt_plot.growth_paused) return;
-    
-    console.log(`resuming stage growth for ${plot_id}`);
-    
-    // Reset pause flag
-    dirt_plot.growth_paused = false;
-    
-    // Restart the stage timer
-    startStageTimer(plot_id);
-}
-
-// ADVANCE STAGE ========================================================
-
-function advanceSprout(plot_id) {
-    const dirt_plot = dirt_plots.find(plot => plot.id === plot_id);
-    
-    if (dirt_plot && dirt_plot.has_sprout && dirt_plot.sprout_stage < 6) {
-        dirt_plot.sprout_stage++;
-        const new_stage = sprout_stages.find(stage => stage.stage === dirt_plot.sprout_stage);
-        
-        // update sprout visual
-        const plot_element = dirt_plot.element;
-        
-        if (dirt_plot.sprout_stage === 6) {
-            const dirt_plot = dirt_plots.find(plot => plot.id === plot_id);
-            if (dirt_plot) {
-                hideUI();
-                // check if hybrid
-                if (dirt_plot.hybrid) {
-                    const seed1 = seed_types[dirt_plot.parents[0]];
-                    const seed2 = seed_types[dirt_plot.parents[1]];
-                    
-                    // find the hybrid recipe to get the result
-                    const hybrid_recipe = hybrid_recipes.find(r =>
-                        (r.parents.includes(dirt_plot.parents[0]) && r.parents.includes(dirt_plot.parents[1]))
-                    );
-                    
-                    if (hybrid_recipe) {
-                        const result_seed = seed_types[hybrid_recipe.child];
-                        const flower_type = flower_types[hybrid_recipe.child];
-                        
-                        console.log("hybrid result:", hybrid_recipe.child);
-                        console.log("flower type:", flower_type);
-                        
-                        if (flower_type) {
-                            plot_element.innerHTML = `<img src="${flower_type.img}" alt="${flower_type.name}">`;
-                            console.log(`hybrid flower bloomed: ${flower_type.name} on ${plot_id}`);
-                            advanceAnimation(plot_element);
-                        } else {
-                            console.error(`flower type not found for hybrid result: ${hybrid_recipe.child}`);
-                        }
-                        
-                        notification(`${seed1.id} has successfully hybridized!`, "assets/btns/hybridize.png");
-                    }
-                }
-                else {
-                    const plot_element = dirt_plot.element;
-                    const flower_type = flower_types[dirt_plot.seed_type];
-                    
-                    if (flower_type) {
-                        plot_element.innerHTML = `<img src="${flower_type.img}" alt="${flower_type.name}">`;
-                        console.log(`flower bloomed: ${flower_type.name} on ${plot_id}`);
-                        advanceAnimation(plot_element);
-                        notification(`${flower_type.name} bloomed!`, flower_type.img);
-                    }
-                }
-            }
-        } 
-        
-        else {
-            const stage_info = sprout_stages.find(stage => stage.stage === dirt_plot.sprout_stage);
-            if (stage_info && stage_info.img) {
-                plot_element.innerHTML = `<img src="${stage_info.img}" alt="${stage_info.name}">`;
-                advanceAnimation(plot_element);
-            }
-            
-            // check if it needs water
-            if (dirt_plot.sprout_stage === 2 || dirt_plot.sprout_stage === 4) {
-                console.log(plot_id, "needs water");
-                waterPlease(plot_id);
-                return;  
-            }
-        }
-        
-        if (new_stage) {
-            console.log(`advanced ${plot_id} to ${new_stage.name} stage`);
-        } else {
-            console.log(`advanced ${plot_id} to stage ${dirt_plot.sprout_stage}`);
-        }
-        console.log("current plot info:", dirt_plot);
-        
-        function advanceAnimation(plot_element) {
-        // advancement animation 3s
-        const overlay = document.createElement('img');
-        overlay.src = "assets/advance.gif";
-        overlay.alt = "advancement animation";
-        overlay.style.position = 'absolute';
-        overlay.style.top = '0';
-        overlay.style.left = '0';
-        overlay.style.width = '100%';
-        overlay.style.height = '100%';
-        overlay.style.zIndex = '10';
-        overlay.style.animation = 'fade-hover 2.5s ease-in-out';
-        
-        plot_element.style.position = 'relative';
-        plot_element.appendChild(overlay);
-        
-        // remove overlay after 3s
-        setTimeout(() => {
-            if (overlay && overlay.parentNode) {
-                plot_element.removeChild(overlay);
-            }
-        }, 2500);
-        }
-
-        // stage progress bar
-        const progressValue = document.getElementById('growth-progress-value');
-        if (progressValue) {
-            const percent = Math.max(0, Math.min(100, (dirt_plot.sprout_stage / 6) * 100));
-            progressValue.style.width = percent + '%';
-        }
-
-        return;
-    }
-}
-
 function waterPlease(plot_id) {
     const dirt_plot = dirt_plots.find(plot => plot.id === plot_id);
     if (!dirt_plot || !dirt_plot.has_sprout) return;
@@ -421,10 +274,13 @@ water_btn.addEventListener('click', () => {
     if (!selected_plot) return;
     
     const dirt_plot = dirt_plots.find(plot => plot.id === selected_plot.id);
-    if (!dirt_plot || !dirt_plot.growth_paused) return;
+    if (!dirt_plot || !dirt_plot.element.querySelector('.water_notification')) return;
     
     const water_notification = dirt_plot.element.querySelector('.water_notification');
     if (water_notification) water_notification.remove();
+    
+    water_sound.currentTime = 0;
+    water_sound.play();
     
     // water overlay
     const overlay = document.createElement('img');
@@ -434,8 +290,7 @@ water_btn.addEventListener('click', () => {
     
     setTimeout(() => overlay.remove(), 3000);
     
-    resumeStageGrowth(selected_plot.id);
-    notification('plant watered! 💧', 'assets/notif.png');
+    resumePlotById(selected_plot.id);
     hideUI();
 });
 
@@ -467,6 +322,8 @@ function notification(message, img) {
     notification.innerHTML = `<img src = "${img}"> <span>${message}</span>`;
     notification_container.appendChild(notification);
     notification.style.display = 'block';
+    notif_sound.currentTime = 0;
+    notif_sound.play();
     setTimeout(() => {
         notification.style.opacity = '0';
         setTimeout(() => {
@@ -475,27 +332,41 @@ function notification(message, img) {
     }, 3000);
 }
 
-// pause all growth timers for all plots
-function pauseGame() {
-    dirt_plots.forEach(plot => {
-        if (plot.stage_timer) {
-            clearTimeout(plot.stage_timer);
-            plot.stage_timer = null;
-            plot.growth_paused = true;
-        }
-    });
-    const game_paused = document.getElementById('game_paused');
-    game_paused.style.display = 'block';
+function pausePlotById(plot_id) {
+    const dirt_plot = dirt_plots.find(plot => plot.id === plot_id);
+    if (dirt_plot && dirt_plot.stage_timer) {
+        clearTimeout(dirt_plot.stage_timer);
+        dirt_plot.stage_timer = null;
+        dirt_plot.growth_paused = true;
+        console.log('growth paused for plot', plot_id, '- timer cleared');
+    } else {
+        console.log('growth paused for plot', plot_id, '- no active timer');
+    }
 }
 
-// resume all growth timers for all plots
-function resumeGame() {
-    dirt_plots.forEach(plot => {
-        if (plot.growth_paused && plot.has_sprout && plot.sprout_stage < 6) {
-            plot.growth_paused = false;
-            startStageTimer(plot.id);
-        }
-    });
-    const game_paused = document.getElementById('game_paused');
-    game_paused.style.display = 'none';
+function resumePlotById(plot_id) {
+    const dirt_plot = dirt_plots.find(plot => plot.id === plot_id);
+    if (dirt_plot && dirt_plot.growth_paused && dirt_plot.has_sprout && dirt_plot.sprout_stage < 6) {
+        dirt_plot.growth_paused = false;
+        startStageTimer(dirt_plot.id);
+        console.log('growth resumed for plot', plot_id);
+        return true;
+    }
+    return false;
 }
+
+// CLOCK ========================================================
+
+function updateClock() {
+    const now = new Date();
+    let h = now.getHours();
+    let m = String(now.getMinutes()).padStart(2, '0'); // add 0 if less than 10
+    let ampm = h >= 12 ? 'P<br>M' : 'A<br>M';
+    h = h % 12; // convert to 12-hour format
+    if (h === 0) h = 12; // show 12 instead of 0
+    h = String(h).padStart(2, '0');
+    let formatted = `${h}:${m}`;
+    document.getElementById('clock').innerHTML = `<h1> ${formatted} </h1> <p> ${ampm} </p>`;
+}
+setInterval(updateClock, 1000);
+updateClock();
