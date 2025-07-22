@@ -15,7 +15,7 @@ function startStageTimer(plot_id) {
 
     console.log(`starting stage timer for ${plot_id} at stage ${dirt_plot.sprout_stage}`);
     
-    // Set 20 second timer for current stage
+    // Set 10 second timer for current stage
     dirt_plot.stage_timer = setTimeout(() => {
         advanceSprout(plot_id);
 
@@ -27,7 +27,7 @@ function startStageTimer(plot_id) {
         if (updated_plot && updated_plot.sprout_stage < 6 && !updated_plot.growth_paused) {
             startStageTimer(plot_id);
         }
-    }, 20000);
+    }, 10000);
 }
 
 function pauseStageGrowth(plot_id) {
@@ -92,7 +92,9 @@ function advanceSprout(plot_id) {
                                 console.log(`hybrid failed, showing ${parent1_flower.name} on ${plot_id}`);
                                 advanceAnimation(plot_element);
                                 notification(`looks like ${seed1.id} seed has failed to hybridize.`, "assets/btns/hybridize.png");
-                                notification(`try again with another ${seed2.id} seed!`, "assets/notif.png");
+                                setTimeout(() => {
+                                    notification(`try again with another ${seed2.id} seed!`, "assets/notif.png");
+                                }, 1000);
                             }
                         } else {
                             // 50% hybridization success
@@ -135,6 +137,7 @@ function advanceSprout(plot_id) {
                         plot_element.innerHTML = `<img src="${flower_type.img}" alt="${flower_type.name}">`;
                         console.log(`flower bloomed: ${flower_type.name} on ${plot_id}`);
                         advanceAnimation(plot_element);
+                        }
                     }
                 }
             }
@@ -194,7 +197,5 @@ function advanceSprout(plot_id) {
             const percent = Math.max(0, Math.min(100, (dirt_plot.sprout_stage / 6) * 100));
             progressValue.style.width = percent + '%';
         }
-
-        return;
     }
-}
+    return;

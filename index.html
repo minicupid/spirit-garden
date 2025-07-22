@@ -16,6 +16,7 @@
 
     <div id="toolbar">
         <button id = "notepad_btn" class = "sound_soft_click"> <img src = "assets/btns/notepad.png"> </button>
+        <button id = "inventory_btn" class = "sound_soft_click"> <img src = "assets/btns/inventory.png"> </button>
         <div id = "nowplaying_footer">
             <p id = "nowplaying_text"> now playing: "where leaves sing" —— stillsounds </p>
             <p id = "nowplaying_text2"> now playing: "where leaves sing" ——  stillsounds </p>
@@ -150,6 +151,15 @@
         <p id = "notification" style = "display: none;"> </p>
     </div>
 
+    <div id = "inventory">
+        <img id = "seed_ui_img" src = "assets/uiBorder.gif">
+        <h2> your flowers </h2>
+        <div id = "inventory_items">
+            
+        </div>
+        <button id = "close_inventory_btn" class = "sound_ui_pop"> close </button>
+    </div>
+
     <div id = "info_container">
         <img id = "info_img" src = "assets/infoUi.png">
         <h2 id = "plot_name"> plot one ✦ ✦ ✦ </h2>
@@ -158,11 +168,11 @@
 
         <div id = "info_content">
         <h2> parent seeds: </h2>
-            <p id = "parent_seeds"> red+ x blue+ </p>
+            <p id = "parent_seeds"> </p>
         <h2> blooms into: </h2>
-            <p id = "bloom_into"> fragments of the wind <br> ??? </p>
+            <p id = "bloom_into"> </p>
         <h2> can drop: </h2>
-            <p id = "can_drop"> red seed <br> ??? </p>
+            <p id = "can_drop"> </p>
 
         <div id = "growth-scale">
             <img id = "growth_seed_bg" src = "assets/infoUi2.png">

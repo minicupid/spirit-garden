@@ -150,3 +150,27 @@ notepad_btn.addEventListener('click', () => {
         info_container.style.display = 'none';
     }
 });
+
+// INVENTORY BUTTON TOGGLE
+if (inventory_btn) {
+    inventory_btn.addEventListener('click', () => {
+        if (inventory.style.display === 'flex') {
+            inventory.style.display = 'none';
+            unblurBg();
+        } else {
+            showFlowerInventory();
+            blurBg();
+        }
+        hideUI();
+        if (info_container.style.display === 'block') {
+            info_container.style.display = 'none';
+        }
+    });
+}
+
+if (close_inventory_btn) {
+    close_inventory_btn.addEventListener('click', () => {
+        inventory.style.display = 'none';
+        unblurBg();
+    });
+}

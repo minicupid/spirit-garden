@@ -138,9 +138,6 @@ function checkHybridResult() {
         hybrid_possible_seed.style.opacity = 0.7;
         hybrid_combine_btn.disabled = true;
         notification("this combination is illegal!", "assets/btns/close.png");
-        setTimeout(() => {
-            notification("check your notepad!", "assets/notif.png");
-        }, 1000);
     }
 }
 
@@ -172,6 +169,11 @@ function combineHybrid() {
     // Add parent seeds info to the plot
     dirt_plot.parents = [dirt_plot.seed_type, hybrid_selected_seed];
     dirt_plot.hybrid = true;
+    // remove selected seed from inventory
+    const selected_seed = player_seeds.find(seed => seed.id === hybrid_selected_seed);
+    if (selected_seed) {
+        selected_seed.amount--;
+    }
     
     console.log("hybrid parents added to plot:", dirt_plot.parents);
     console.log("plot hybrid status:", dirt_plot.hybrid);
@@ -197,6 +199,8 @@ function cutSprout(plot_id) {
             const flower_type = flower_types[flower_seed_type];
             
             if (flower_type) {
+                addFlowerToInventory(flower_seed_type);
+                
                 // 40% chance to return rare seed, 60% chance to return normal seed
                 const rare_chance = Math.random();
                 const seed_id = rare_chance < 0.4 ? `${flower_seed_type}_rare` : flower_seed_type;
@@ -211,7 +215,7 @@ function cutSprout(plot_id) {
                 seed_slot.amount++;
                 
                 if (seed_id.includes('_rare')) {
-                    notification(`you found a rare ${seed_id.replace('_rare','')} seed! <br> you can try hybridizing it.`, `assets/notif.png`);
+                    notification(`you found a rare ${seed_id.replace('_rare','+')} seed!`, `assets/notif.png`);
                 } else {
                     notification(`${seed_id} seed added to inventory.`, `assets/notif.png`);
                 }
@@ -451,4 +455,79 @@ if (ethereal_flowers_btn) {
     ethereal_flowers_btn.addEventListener('click', () => {
         populateNotepadFlowers('ethereal');
     });
+}
+
+// FLOWER INVENTORY ========================================================  (copied and modified from seed inventory)
+
+function showFlowerInventory() {
+    console.log("loading flower inventory:");
+    const inventory_items = document.getElementById('inventory_items');
+    inventory_items.innerHTML = ''; // clear previous records
+
+    let hasFlower = false; // check if player has any flowers
+
+    player_flowers.forEach(flower => {
+        if (flower.amount > 0) { // display flower if > 0
+            hasFlower = true;
+            const flower_type = flower_types[flower.id]; // find flower type
+            
+            let btn = document.createElement('button'); // create button for each flower
+            btn.classList.add('flower_type_btn'); // add class to button
+            
+            console.log("flower type:", flower_type);
+            // create button content
+            let buttonContent = `<img src="${flower_type.img}" alt="${flower_type.name}"><span>${flower.amount}</span>`;
+            btn.innerHTML = buttonContent;
+            
+            // hover effects for title
+            btn.addEventListener('mouseenter', () => {
+                const inventory_h2 = document.querySelector('#inventory h2');
+                if (inventory_h2) {
+                    inventory_h2.innerHTML = flower_type.name;
+                }
+            });
+            
+            btn.addEventListener('mouseleave', () => {
+                const inventory_h2 = document.querySelector('#inventory h2');
+                if (inventory_h2) {
+                    inventory_h2.innerHTML = 'your flowers';
+                }
+            });
+            
+            // sound effects
+            btn.addEventListener('mouseover', () => {
+                item_hover.currentTime = 0;
+                item_hover.play();
+            });
+
+            btn.addEventListener('mouseout', () => {
+                item_hover.pause();
+            });
+
+            inventory_items.appendChild(btn); // add button to inventory
+        }
+    });
+
+    if (!hasFlower) {
+        inventory_items.innerHTML = '<p style="color: #666; text-align: center; margin: 20px; line-height: 1.5;">you haven\'t collected any flowers yet. get a seed to blossom, then harvest it!</p>';
+    }
+
+    // show inventory
+    inventory.style.display = 'flex';
+    console.log("flower inventory opened");
+}
+
+function addFlowerToInventory(flowerId) {
+    // find or create flower slot
+    let flower_slot = player_flowers.find(flower => flower.id === flowerId);
+    if (!flower_slot) {
+        // create new flower slot if it doesn't exist
+        flower_slot = { id: flowerId, amount: 0 };
+        player_flowers.push(flower_slot);
+    }
+    flower_slot.amount++;
+    
+    const flower_type = flower_types[flowerId];
+    notification(`${flower_type.name} added to collection!`, flower_type.img);
+    console.log(`added ${flower_type.name} to flower inventory`);
 }

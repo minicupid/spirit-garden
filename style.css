@@ -261,10 +261,22 @@ body, html {
     width: 100%;
 }
 
-#notepad_btn:hover {
+#notepad_btn:hover, #inventory_btn:hover {
     animation: none;
     transform: rotate(10deg);
     cursor: pointer;
+}
+
+#inventory_btn {
+    width: 60px;
+    background-color: transparent;
+    z-index: 5;
+    animation: bob 1.5s ease-out infinite;
+    border: 0px solid;
+}
+
+#inventory_btn img {
+    width: 100%;
 }
 
 #nowplaying_footer {

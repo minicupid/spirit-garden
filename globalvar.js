@@ -2,6 +2,9 @@ const seed_btn = document.getElementById('seed_btn');
 const water_btn = document.getElementById('water_btn');
 const seed_close_btn = document.getElementById('seed_close_btn');
 const seed_ui = document.getElementById('seed_ui');
+const inventory_btn = document.getElementById('inventory_btn');
+const inventory = document.getElementById('inventory');
+const close_inventory_btn = document.getElementById('close_inventory_btn');
 const background = document.getElementById('background');
 const garden = document.getElementById('garden');
 const info_btn = document.getElementById('info_btn');
@@ -50,6 +53,10 @@ const seed_types = {
     grey: { id: "grey", name: "grey seed", img: "assets/seeds/grey_seed.png" },
     purple: { id: "purple", name: "purple seed", img: "assets/seeds/purple_seed.png" },
     beige: { id: "beige", name: "beige seed", img: "assets/seeds/beige_seed.png" },
+    orange: { id: "orange", name: "orange seed", img: "assets/seeds/orange_seed.png" },
+    copper: { id: "copper", name: "copper seed", img: "assets/seeds/copper_seed.png" },
+    white: { id: "white", name: "white seed", img: "assets/seeds/white_seed.png" },
+    black: { id: "black", name: "black seed", img: "assets/seeds/black_seed.png" },
 
     red_rare: { id: "red+", name: "red seed+", img: "assets/seeds/red_seed+.png" },
     blue_rare: { id: "blue+", name: "blue seed+", img: "assets/seeds/blue_seed+.png" },
@@ -59,6 +66,10 @@ const seed_types = {
     grey_rare: { id: "grey+", name: "grey seed+", img: "assets/seeds/grey_seed+.png" },
     purple_rare: { id: "purple+", name: "purple seed+", img: "assets/seeds/purple_seed+.png" },
     beige_rare: { id: "beige+", name: "beige seed+", img: "assets/seeds/beige_seed+.png" },
+    orange_rare: { id: "orange+", name: "orange seed+", img: "assets/seeds/orange_seed+.png" },
+    copper_rare: { id: "copper+", name: "copper seed+", img: "assets/seeds/copper_seed+.png" },
+    white_rare: { id: "white+", name: "white seed+", img: "assets/seeds/white_seed+.png" },
+    black_rare: { id: "black+", name: "black seed+", img: "assets/seeds/black_seed+.png" },
     }
 
 let player_seeds = [
@@ -70,6 +81,10 @@ let player_seeds = [
     { id: "grey", amount: 0, is_rare: false },
     { id: "purple", amount: 0, is_rare: false },
     { id: "beige", amount: 0, is_rare: false },
+    { id: "orange", amount: 0, is_rare: false },
+    { id: "copper", amount: 0, is_rare: false },
+    { id: "white", amount: 0, is_rare: false },
+    { id: "black", amount: 0, is_rare: false },
 
     { id: "red_rare", amount: 0, is_rare: true },
     { id: "blue_rare", amount: 0, is_rare: true },
@@ -79,6 +94,25 @@ let player_seeds = [
     { id: "grey_rare", amount: 0, is_rare: true },
     { id: "purple_rare", amount: 0, is_rare: true },
     { id: "beige_rare", amount: 0, is_rare: true },
+    { id: "orange_rare", amount: 0, is_rare: true },
+    { id: "copper_rare", amount: 0, is_rare: true },
+    { id: "white_rare", amount: 0, is_rare: true },
+    { id: "black_rare", amount: 0, is_rare: true },
+]
+
+let player_flowers = [
+    { id: "red", amount: 0 },
+    { id: "blue", amount: 0 },
+    { id: "green", amount: 0 },
+    { id: "yellow", amount: 0 },
+    { id: "brown", amount: 0 },
+    { id: "grey", amount: 0 },
+    { id: "purple", amount: 0 },
+    { id: "beige", amount: 0 },
+    { id: "orange", amount: 0 },
+    { id: "copper", amount: 0 },
+    { id: "white", amount: 0 },
+    { id: "black", amount: 0 },
 ]
 
 const flower_types = {
@@ -90,8 +124,12 @@ const flower_types = {
     blue: { id: "blue", name: "azure fluid", img: "assets/flowers/blue.gif", family: "mystic", attracts: "opalember" },
     green: { id: "green", name: "fragments of the wind", img: "assets/flowers/green.gif", family: "mystic", attracts: "mosslight" },
     grey: { id: "grey", name: "ocean vapor", img: "assets/flowers/grey.gif", family: "ethereal", attracts: "glassmist" },
+    orange: { id: "orange", name: "orange flower", img: "assets/flowers/orange.gif", family: "mystic", attracts: "?" },
+    copper: { id: "copper", name: "copper flower", img: "assets/flowers/copper.gif", family: "mystic", attracts: "?" },
+    white: { id: "white", name: "white flower", img: "assets/flowers/white.gif", family: "ethereal", attracts: "?" },
+    black: { id: "black", name: "black flower", img: "assets/flowers/black.gif", family: "ethereal", attracts: "?" },
 
-    red_rare: { id: "red+", name: "rose shards+", img: "assets/flowers/red.gif", family: "basic", attracts: "tearripple" },
+    red_rare: { id: "red+", name: "rose shards+", img: "assets/flowers/red.gif", family: "basic", attracts: "bloodtear" },
     purple_rare: { id: "purple+", name: "purple flower+", img: "assets/flowers/purple.gif", family: "basic", attracts: "cloudwisp" },
     beige_rare: { id: "beige+", name: "beige flower+", img: "assets/flowers/beige.gif", family: "basic", attracts: "sundroplet" },
     yellow_rare: { id: "yellow+", name: "sunboy bloom+", img: "assets/flowers/yellow.gif", family: "basic", attracts: "lumendew" },
@@ -99,16 +137,23 @@ const flower_types = {
     blue_rare: { id: "blue+", name: "azure fluid+", img: "assets/flowers/blue.gif", family: "mystic", attracts: "opalember" },
     green_rare: { id: "green+", name: "fragments of the wind+", img: "assets/flowers/green.gif", family: "mystic", attracts: "mosslight" },
     grey_rare: { id: "grey+", name: "ocean vapor+", img: "assets/flowers/grey.gif", family: "ethereal", attracts: "glassmist" },
-
+    orange_rare: { id: "orange+", name: "orange flower+", img: "assets/flowers/orange.gif", family: "mystic", attracts: "watchling" },
+    copper_rare: { id: "copper+", name: "copper flower+", img: "assets/flowers/copper.gif", family: "mystic", attracts: "shimmer" },
+    white_rare: { id: "white+", name: "white flower+", img: "assets/flowers/white.gif", family: "ethereal", attracts: "lightvoid" },
+    black_rare: { id: "black+", name: "black flower+", img: "assets/flowers/black.gif", family: "ethereal", attracts: "timeleaper" },
 }
 
 const hybrid_recipes = [
     { parents: ["brown_rare", "yellow_rare"], child: "beige_rare" },
     { parents: ["brown_rare", "brown_rare"], child: "purple_rare" },
+    { parents: ["brown_rare", "purple_rare"], child: "copper_rare" },
     { parents: ["yellow_rare", "yellow_rare"], child: "red_rare" },
     { parents: ["purple_rare", "beige_rare"], child: "blue_rare" },
     { parents: ["beige_rare", "red_rare"], child: "green_rare" },
-    { parents: ["purple_rare", "red_rare"], child: "grey_rare" }
+    { parents: ["purple_rare", "red_rare"], child: "grey_rare" },
+    { parents: ["yellow_rare", "red_rare"], child: "orange_rare" },
+    { parents: ["orange_rare", "green_rare"], child: "white_rare" },
+    { parents: ["copper_rare", "blue_rare"], child: "black_rare" },
 ]
 
 let hybrid_current_plot = null;
@@ -124,7 +169,11 @@ const discovered_seeds = {
     grey: false,
     purple: false,
     beige: false,
-    
+    orange: false,
+    copper: false,
+    white: false,
+    black: false,
+
     red_rare: false,
     blue_rare: false,
     green_rare: false,
@@ -133,4 +182,8 @@ const discovered_seeds = {
     grey_rare: false,
     purple_rare: false,
     beige_rare: false,
+    orange_rare: false,
+    copper_rare: false,
+    white_rare: false,
+    black_rare: false,
 }
