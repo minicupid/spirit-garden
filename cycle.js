@@ -59,10 +59,11 @@ function resumeStageGrowth(plot_id) {
 
 function advanceSprout(plot_id) {
     const dirt_plot = dirt_plots.find(plot => plot.id === plot_id);
+    let new_stage = null;
     
     if (dirt_plot && dirt_plot.has_sprout && dirt_plot.sprout_stage < 6) {
         dirt_plot.sprout_stage++;
-        const new_stage = sprout_stages.find(stage => stage.stage === dirt_plot.sprout_stage);
+        new_stage = sprout_stages.find(stage => stage.stage === dirt_plot.sprout_stage);
         
         // update sprout visual
         const plot_element = dirt_plot.element;
@@ -198,4 +199,3 @@ function advanceSprout(plot_id) {
             progressValue.style.width = percent + '%';
         }
     }
-    return;
