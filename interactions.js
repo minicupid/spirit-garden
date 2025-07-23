@@ -215,7 +215,11 @@ function cutSprout(plot_id) {
                 seed_slot.amount++;
                 
                 if (seed_id.includes('_rare')) {
-                    notification(`you found a rare ${seed_id.replace('_rare','+')} seed!`, `assets/notif.png`);
+                    let displayName = seed_id;
+                    if (displayName.endsWith('_rare')) {
+                        displayName = displayName.replace('_rare', '') + ' (rare)';
+                    }
+                    notification(`${displayName} seed added to inventory.`, `assets/notif.png`);
                 } else {
                     notification(`${seed_id} seed added to inventory.`, `assets/notif.png`);
                 }

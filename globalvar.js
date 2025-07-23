@@ -90,7 +90,7 @@ let player_seeds = [
     { id: "blue_rare", amount: 0, is_rare: true },
     { id: "green_rare", amount: 0, is_rare: true },
     { id: "yellow_rare", amount: 2, is_rare: true },
-    { id: "brown_rare", amount: 1, is_rare: true },
+    { id: "brown_rare", amount: 2, is_rare: true },
     { id: "grey_rare", amount: 0, is_rare: true },
     { id: "purple_rare", amount: 0, is_rare: true },
     { id: "beige_rare", amount: 0, is_rare: true },
