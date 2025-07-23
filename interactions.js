@@ -528,6 +528,5 @@ function addFlowerToInventory(flowerId) {
     flower_slot.amount++;
     
     const flower_type = flower_types[flowerId];
-    notification(`${flower_type.name} added to collection!`, flower_type.img);
     console.log(`added ${flower_type.name} to flower inventory`);
 }

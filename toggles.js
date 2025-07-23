@@ -113,7 +113,10 @@ hybrid_btn.addEventListener('click', () => {
     const dirt_plot = dirt_plots.find(plot => plot.id === selected_plot.id);
     if (dirt_plot && dirt_plot.hybrid) {
         notification("you already attempted hybridizing this seed!", "assets/btns/hybridize.png");
-    } else {
+    } else if (dirt_plot && dirt_plot.seed_type !== "rare") {
+        notification("you can only hybridize rare seeds!", "assets/btns/close.png");
+    }
+    else {
         blurBg();
         openHybridUI(selected_plot);
     }
