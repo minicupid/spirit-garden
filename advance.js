@@ -1,10 +1,10 @@
 function advanceSprout(plot_id) {
     const dirt_plot = dirt_plots.find(plot => plot.id === plot_id);
-    console.log("in advanceSprout");
+    // console.log("in advanceSprout");
     
     if (dirt_plot && dirt_plot.has_sprout && dirt_plot.sprout_stage < 6) {
         dirt_plot.sprout_stage++;
-        console.log("advanced to stage:", dirt_plot.sprout_stage);
+        // console.log("advanced to stage:", dirt_plot.sprout_stage);
         
         // update sprout visual
         const plot_element = dirt_plot.element;
@@ -35,7 +35,7 @@ function advanceSprout(plot_id) {
                         if (parent1_flower) {
                             plot_element.innerHTML = `<img src="${parent1_flower.img}" alt="${parent1_flower.name}">`;
                             advanceAnimation(plot_element);
-                            notification(`${seed1.id} seed has failed to hybridize.`, "assets/btns/hybridize.png");
+                            // notification(`${seed1.id} seed has failed to hybridize.`, "assets/btns/hybridize.png");
                         }
                     } 
                         else {
@@ -43,12 +43,12 @@ function advanceSprout(plot_id) {
                             const result_seed = seed_types[hybrid_recipe.child];
                             const flower_type = flower_types[hybrid_recipe.child];
                             
-                            console.log("hybrid result:", hybrid_recipe.child);
-                            console.log("flower type:", flower_type);
+                            // console.log("hybrid result:", hybrid_recipe.child);
+                            // console.log("flower type:", flower_type);
                             
                             if (flower_type) {
                                 plot_element.innerHTML = `<img src="${flower_type.img}" alt="${flower_type.name}">`;
-                                console.log(`hybrid flower bloomed: ${flower_type.name} on ${plot_id}`);
+                                // console.log(`hybrid flower bloomed: ${flower_type.name} on ${plot_id}`);
                                 advanceAnimation(plot_element);
                                 
                                 // store hybrid result 
@@ -66,7 +66,7 @@ function advanceSprout(plot_id) {
                                 console.error(`flower type not found for hybrid result: ${hybrid_recipe.child}`);
                             }
                             
-                            notification(`${seed1.id} has successfully hybridized!`, "assets/btns/hybridize.png");
+                            // notification(`${seed1.id} has successfully hybridized!`, "assets/btns/hybridize.png");
                         }
                     }
                 }
@@ -76,7 +76,7 @@ function advanceSprout(plot_id) {
                     
                     if (flower_type) {
                         plot_element.innerHTML = `<img src="${flower_type.img}" alt="${flower_type.name}">`;
-                        console.log(`flower bloomed: ${flower_type.name} on ${plot_id}`);
+                        // console.log(`flower bloomed: ${flower_type.name} on ${plot_id}`);
                         advanceAnimation(plot_element);
                         }
                     }
@@ -88,19 +88,19 @@ function advanceSprout(plot_id) {
                 
                 const plot_element = dirt_plot.element;
                 plot_element.innerHTML = `<img src="${stage_info.img}" alt="${stage_info.name}">`;
-                console.log("displaying stage:", stage_info.img);
+                // console.log("displaying stage:", stage_info.img);
                 advanceAnimation(plot_element);
             }
             
             // check if it needs water
             if (dirt_plot.sprout_stage === 2 || dirt_plot.sprout_stage === 4) {
-                console.log(plot_id, "needs water");
+                // console.log(plot_id, "needs water");
                 waterPlease(plot_id);
                 return;  
             }
         
-            console.log(`advanced ${plot_id} to ${dirt_plot.sprout_stage} stage`);
-            console.log("current plot info:", dirt_plot);
+            // console.log(`advanced ${plot_id} to ${dirt_plot.sprout_stage} stage`);
+            // console.log("current plot info:", dirt_plot);
         
             function advanceAnimation(plot_element) {
             // advancement animation 3s

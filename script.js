@@ -19,14 +19,14 @@ document.addEventListener('click', () => {
 
 function selectPlot(plot) {
     selected_plot = plot; // set selected plot to the clicked dirt plot
-    console.log("selected plot:", selected_plot);
+    // console.log("selected plot:", selected_plot);
     
     // find the corresponding data object for the selected plot
     const dirt_plot = dirt_plots.find(d => d.id === plot.id);
     
     if (dirt_plot && dirt_plot.has_sprout) {
         const seed = seed_types[dirt_plot.seed_type];
-        console.log("seed:", seed);
+        // console.log("seed:", seed);
 
         // Check if fully grown (stage 6)
         if (dirt_plot.sprout_stage === 6) {
@@ -79,7 +79,7 @@ function selectPlot(plot) {
 // ADD SEED INTERACTION ========================================================
 
 seed_btn.addEventListener('click', () => {
-    console.log("seed button clicked on:", selected_plot.id);
+    // console.log("seed button clicked on:", selected_plot.id);
     seedUI();
 
 });
@@ -92,12 +92,12 @@ function seedUI() { // shows seed ui with updated seed items
 
     if (seed_ui) {
         if (seed_ui.style.display === 'none' || seed_ui.style.display === '') { // if closed
-            console.log("open seed UI");
+            // console.log("open seed UI");
             seed_ui.style.display = 'flex'; // open
             interaction_btns.classList.add('hidden'); // hide buttons when ui open
             showBackground(); // activate background clicks for hiding UI
         } else {
-            console.log("close seed UI");
+            // console.log("close seed UI");
             seed_ui.style.display = 'none'; // close
             interaction_btns.classList.add('hidden'); // hide buttons
             hideBackground(); // disable background when UI is closed
@@ -110,7 +110,7 @@ function seedUI() { // shows seed ui with updated seed items
         }
     }
     
-    console.log("loading current seeds:");
+    // console.log("loading current seeds:");
     const seed_items = document.getElementById('seed_items');
     seed_items.innerHTML = ''; // clears previous records
 
@@ -120,15 +120,15 @@ function seedUI() { // shows seed ui with updated seed items
         if (seed.amount > 0) { // display seed type if > 0
             hasSeed = true;
             discovered_seeds[seed.id] = true;
-            console.log("discovered seeds:", discovered_seeds);
+            // console.log("discovered seeds:", discovered_seeds);
             const seed_type = seed_types[seed.id]; // finds seed type
             
             let btn = document.createElement('button'); // creates button for each seed type
             btn.classList.add('seed_type_btn'); // adds class to button
             
-            console.log("seed type:", seed_type);
+            // console.log("seed type:", seed_type);
             // create button
-            console.log("seed type img:", seed_type.img);
+            // console.log("seed type img:", seed_type.img);
             let buttonContent = `<img src="${seed_type.img}" alt="${seed_type.name}"><span>${seed.amount}</span>`;
             // rare indicator
             if (seed.is_rare) {
@@ -136,7 +136,7 @@ function seedUI() { // shows seed ui with updated seed items
             }
 
             btn.innerHTML = buttonContent;
-            console.log("loaded seeds:", seed_items);
+            // console.log("loaded seeds:", seed_items);
             
             // change h2 when hover seed btn
             btn.addEventListener('mouseenter', () => {
@@ -203,7 +203,7 @@ function seedUI() { // shows seed ui with updated seed items
 // PLANTING SEED ========================================================
 
 function plantSeed(seed_id, plot_element) {
-    console.log("planted a", seed_id, "seed on", plot_element.id);
+    // console.log("planted a", seed_id, "seed on", plot_element.id);
     notification(`planted a ${seed_types[seed_id].name}`, seed_types[seed_id].img);
 
     // find dirt plot in dataset
@@ -228,16 +228,16 @@ function plantSeed(seed_id, plot_element) {
         
         setTimeout(() => {
             advanceSprout(plot_element.id);
-            console.log("advanced to stage 1");
+            // console.log("advanced to stage 1");
             
             // start growth process
             growth(plot_element.id);
-            console.log("growth started");
+            // console.log("growth started");
             enableSelection(plot_element);
         }, 6000);
 
-        console.log(`adding seed to ${plot_element.id}`);
-        console.log("current plot info:", dirt_plot);
+        // console.log(`adding seed to ${plot_element.id}`);
+        // console.log("current plot info:", dirt_plot);
 
         // update seed inventory (remove 1 from player_seeds)
         const seed_slot = player_seeds.find(seed => seed.id === seed_id);
@@ -338,9 +338,9 @@ function pausePlotById(plot_id) {
         clearTimeout(dirt_plot.stage_timer);
         dirt_plot.stage_timer = null;
         dirt_plot.growth_paused = true;
-        console.log('growth paused for plot', plot_id, '- timer cleared');
+        // console.log('growth paused for plot', plot_id, '- timer cleared');
     } else {
-        console.log('growth paused for plot', plot_id, '- no active timer');
+        // console.log('growth paused for plot', plot_id, '- no active timer');
     }
 }
 
@@ -349,7 +349,7 @@ function resumePlotById(plot_id) {
     if (dirt_plot && dirt_plot.growth_paused && dirt_plot.has_sprout && dirt_plot.sprout_stage < 6) {
         dirt_plot.growth_paused = false;
         startStageTimer(dirt_plot.id);
-        console.log('growth resumed for plot', plot_id);
+        // console.log('growth resumed for plot', plot_id);
         return true;
     }
     return false;

@@ -95,10 +95,10 @@ function checkHybridResult() {
     const parent1 = dirt_plot ? dirt_plot.seed_type : null;
     const parent2 = hybrid_selected_seed;
     
-    console.log("checking hybrid result:", { parent1, parent2 });
+    // console.log("checking hybrid result:", { parent1, parent2 });
     
     if (!parent1 || !parent2) {
-        console.log("missing parent seeds");
+        // console.log("missing parent seeds");
         return;
     }
     
@@ -112,12 +112,10 @@ function checkHybridResult() {
         );
     });
     
-    console.log("found recipe:", hybrid_recipe);
+    // console.log("found recipe:", hybrid_recipe);
     
     if (hybrid_recipe) {
         const result_seed = hybrid_recipe.child;
-        console.log("result seed:", result_seed);
-        console.log("discovered_seeds[result_seed]:", discovered_seeds[result_seed]);
         
         // check if discovered
         if (discovered_seeds[result_seed]) {
@@ -131,14 +129,11 @@ function checkHybridResult() {
                 hybrid_possible_seed.style.opacity = 0.7;
             }
         } else {
-            console.log("seed not discovered yet:", result_seed);
             hybrid_possible_seed.innerHTML = `<img src="assets/undiscovered.gif" style="width:64px; height:64px;">`;
             hybrid_possible_seed.style.opacity = 0.7;
         }
-        console.log("enabling combine button");
         hybrid_combine_btn.disabled = false;
     } else {
-        console.log("no valid recipe found");
         hybrid_possible_seed.innerHTML = `<img src="assets/unfound.gif" style="width:64px; height:64px;">`;
         hybrid_possible_seed.style.opacity = 0.7;
         hybrid_combine_btn.disabled = true;
@@ -151,7 +146,6 @@ function closeHybridUI() {
     if (hybrid_current_plot) {
         resumePlotById(hybrid_current_plot.id);
     }
-    console.log('game resumed after hybrid view');
 }
 
 // HYBRID COMBINE FUNCTION ========================================================
@@ -161,13 +155,11 @@ function combineHybrid() {
         pausePlotById(hybrid_current_plot.id);
     }
     if (!hybrid_recipe || !hybrid_current_plot) {
-        console.log("no recipe or plot selected");
         return;
     }
     
     const dirt_plot = dirt_plots.find(d => d.id === hybrid_current_plot.id);
     if (!dirt_plot) {
-        console.log("dirt plot not found");
         return;
     }
     
@@ -179,9 +171,6 @@ function combineHybrid() {
     if (selected_seed) {
         selected_seed.amount--;
     }
-    
-    console.log("hybrid parents added to plot:", dirt_plot.parents);
-    console.log("plot hybrid status:", dirt_plot.hybrid);
     
     closeHybridUI();
     unblurBg();
@@ -227,7 +216,7 @@ function cutSprout(plot_id) {
                 } else {
                     notification(`${seed_id} seed added to inventory.`, `assets/notif.png`);
                 }
-                console.log(`returned ${seed_id.replace('_rare','+')} to inventory`);
+                // console.log(`returned ${seed_id.replace('_rare','+')} to inventory`);
             } else {
                 console.error(`flower type not found for seed: ${flower_seed_type}`);
             }
@@ -236,7 +225,7 @@ function cutSprout(plot_id) {
             const seed_slot = player_seeds.find(seed => seed.id === dirt_plot.seed_type);
             seed_slot.amount ++;
             notification(`${dirt_plot.seed_type.replace('_rare','+')} seed returned.`, `assets/notif.png`); // notification
-            console.log("returned a", dirt_plot.seed_type, "to inventory");
+            // console.log("returned a", dirt_plot.seed_type, "to inventory");
         }
 
         // reset growth timer
@@ -249,7 +238,6 @@ function cutSprout(plot_id) {
         dirt_plot.has_sprout = false;
         dirt_plot.sprout_stage = null;
         dirt_plot.seed_type = null;
-        console.log(plot_id, "'s sprout has been cut");
 
         // cut animation overlay 1s
         const plot_element = dirt_plot.element;
@@ -374,7 +362,6 @@ function closeInfoUI() {
     if (info_current_plot) {
         resumePlotById(info_current_plot.id);
     }
-    console.log('game resumed after info view');
 }
 
 // NOTEPAD ========================================================
@@ -473,7 +460,7 @@ if (ethereal_flowers_btn) {
 // FLOWER INVENTORY ========================================================  (copied and modified from seed inventory)
 
 function showFlowerInventory() {
-    console.log("loading flower inventory:");
+    // console.log("loading flower inventory:");
     const inventory_items = document.getElementById('inventory_items');
     inventory_items.innerHTML = ''; // clear previous records
 
@@ -527,7 +514,6 @@ function showFlowerInventory() {
 
     // show inventory
     inventory.style.display = 'flex';
-    console.log("flower inventory opened");
 }
 
 function addFlowerToInventory(flowerId) {
@@ -541,5 +527,5 @@ function addFlowerToInventory(flowerId) {
     flower_slot.amount++;
     
     const flower_type = flower_types[flowerId];
-    console.log(`added ${flower_type.name} to flower inventory`);
+    // console.log(`added ${flower_type.name} to flower inventory`);
 }

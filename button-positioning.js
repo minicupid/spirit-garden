@@ -5,14 +5,10 @@ function positionButtons(plot) {
     
     // find the corresponding data object for the selected plot
     const dirt_plot = dirt_plots.find(d => d.id === plot.id);
-    console.log("dirt_plot:", dirt_plot);
-    console.log("plot:", plot);
-
     
     // position buttons relative to plot
 
     if (dirt_plot && dirt_plot.sprout_stage >= 6) {
-        console.log("displaying grown btn positions");
         hybrid_btn.style.display = 'none';
         water_btn.style.display = 'none';
         seed_btn.style.display = 'none';
@@ -32,7 +28,6 @@ function positionButtons(plot) {
         cut_btn.style.top = (plotRect.top - canvasRect.top + 60) + 'px';
         
     } else if (dirt_plot && dirt_plot.sprout_stage >= 1) {
-        console.log("displaying planted btn positions");
 
         info_btn.style.display = 'block';
         cut_btn.style.display = 'block';
@@ -62,7 +57,6 @@ function positionButtons(plot) {
         close_btn.style.top = (plotRect.top - canvasRect.top + 70) + 'px';
 
     } else {
-        console.log("displaying normal btn positions");
         
         seed_btn.style.display = 'block';
         seed_btn.style.position = 'absolute';

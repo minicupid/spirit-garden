@@ -87,21 +87,17 @@ function pauseGrowth(plot) {
 
 close_btn.addEventListener('click', () => {
     hideUI();
-    console.log("close button clicked");
 });
 
 cut_btn.addEventListener('click', () => {
-    console.log("cut button clicked on", selected_plot.id);
     cutSprout(selected_plot.id);
     hideUI();
 });
 
 info_btn.addEventListener('click', () => {
-    console.log("info button clicked on", selected_plot.id);
     if (!selected_plot) return;
     const dirt_plot = dirt_plots.find(plot => plot.id === selected_plot.id);
     if (!dirt_plot || !dirt_plot.has_sprout) return;
-    console.log("dirt plot:", dirt_plot);
     showPlotInfo(dirt_plot);
     hideUI();
     blurBg();
