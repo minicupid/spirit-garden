@@ -11,6 +11,10 @@
 </head>
 <body>
     <div id = "clock"> </div>
+    <button id = "cheatsheet_btn" class = "sound_soft_click" onclick = "toggleCheatsheet()"> toggle cheatsheet </button>
+    <div id = "cheatsheet" class = "hidden">
+        <img src = "assets/cheatsheetUi.png">
+    </div>
     <div id = "background">
     </div>
 
@@ -30,7 +34,8 @@
         <div id = "game_paused"> </div> <!-- removed display -->
 
         <div id = "garden_ui">
-            <h2> discover all the flowers in your notepad by hybridizing rare+ seeds together. <br> get rare+ seeds by harvesting flowers. </h2>
+            <h2> discover all the flowers in your notepad by hybridizing rare+ seeds together. </h2>
+            <p> ** for playtesting: seed drops will always be rare, and hybridization succeeds 80% of the time. </p>
             <div id = "garden_items">
                 
             </div>

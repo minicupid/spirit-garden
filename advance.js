@@ -17,27 +17,29 @@ function advanceSprout(plot_id) {
                 const seed2 = seed_types[dirt_plot.parents[1]];
                 
                 // find the hybrid recipe to get the result
-                const hybrid_recipe = hybrid_recipes.find(r =>
-                    (r.parents.includes(dirt_plot.parents[0]) && r.parents.includes(dirt_plot.parents[1]))
-                );
+                const hybrid_recipe = hybrid_recipes.find(r => {
+                    if (r.parents.length !== 2) return false;
+                    const [a, b] = r.parents;
+                    return (
+                        (a === dirt_plot.parents[0] && b === dirt_plot.parents[1]) ||
+                        (a === dirt_plot.parents[1] && b === dirt_plot.parents[0])
+                    );
+                });
                 
                 if (hybrid_recipe) {
-                    const hybrid_success = Math.floor(Math.random() * 2) + 1; // randomly pick 1 or 2 as 50/50
+                    const hybrid_success = Math.random();
                     
-                    if (hybrid_success === 1) {
-                        // 50% hybridization fail
+                    if (hybrid_success < 0.2) {
+                        // 20% hybridization fail
                         const parent1_flower = flower_types[dirt_plot.parents[0]];
                         if (parent1_flower) {
                             plot_element.innerHTML = `<img src="${parent1_flower.img}" alt="${parent1_flower.name}">`;
                             advanceAnimation(plot_element);
-                            notification(`looks like ${seed1.id} seed has failed to hybridize.`, "assets/btns/hybridize.png");
-                            setTimeout(() => {
-                                notification(`try again with another ${seed2.id} seed!`, "assets/notif.png");
-                            }, 1000);
+                            notification(`${seed1.id} seed has failed to hybridize.`, "assets/btns/hybridize.png");
                         }
                     } 
                         else {
-                            // 50% hybridization success
+                            // 80% hybridization success
                             const result_seed = seed_types[hybrid_recipe.child];
                             const flower_type = flower_types[hybrid_recipe.child];
                             

@@ -11,6 +11,15 @@ function unblurBg() {
     blurElement.style.display = 'none';
 }
 
+function toggleCheatsheet() {
+    if (cheatsheet.classList.contains('hidden')) {
+        cheatsheet.classList.remove('hidden');
+        hideUI();
+    } else {
+        cheatsheet.classList.add('hidden');
+    }
+}
+
 function hideUI() {
     // hide seed UI if visible
     if (seed_ui.style.display === 'flex') {

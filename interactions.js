@@ -103,9 +103,14 @@ function checkHybridResult() {
     }
     
     // see if a combo exists
-    hybrid_recipe = hybrid_recipes.find(r =>
-        (r.parents.includes(parent1) && r.parents.includes(parent2))
-    );
+    hybrid_recipe = hybrid_recipes.find(r => {
+        if (r.parents.length !== 2) return false;
+        const [a, b] = r.parents;
+        return (
+            (a === parent1 && b === parent2) ||
+            (a === parent2 && b === parent1)
+        );
+    });
     
     console.log("found recipe:", hybrid_recipe);
     
@@ -194,16 +199,17 @@ function cutSprout(plot_id) {
         swish.play();
         // flower return calculation
         if (dirt_plot.sprout_stage === 6) {
-            // if successful hybrid, use hybrid_result, otherwise use seed_type
-            const flower_seed_type = dirt_plot.hybrid_result || dirt_plot.seed_type;
+            // if hybrid flower, use hybrid_result, otherwise use seed_type
+            const flower_seed_type = dirt_plot.hybrid ? (dirt_plot.hybrid_result || dirt_plot.seed_type) : dirt_plot.seed_type;
             const flower_type = flower_types[flower_seed_type];
             
             if (flower_type) {
                 addFlowerToInventory(flower_seed_type);
                 
-                // 40% chance to return rare seed, 60% chance to return normal seed
-                const rare_chance = Math.random();
-                const seed_id = rare_chance < 0.4 ? `${flower_seed_type}_rare` : flower_seed_type;
+                // 100% chance to return rare seed, 0% chance to return normal seed
+                const rare_chance = 0.1;
+                let baseSeed = flower_seed_type.replace(/_rare$/, ''); // remove _rare if present
+                const seed_id = rare_chance < 0.5 ? `${baseSeed}_rare` : baseSeed;
                 
                 // find or create the seed slot if it doesn't exist
                 let seed_slot = player_seeds.find(seed => seed.id === seed_id);
@@ -214,12 +220,10 @@ function cutSprout(plot_id) {
                 }
                 seed_slot.amount++;
                 
+                let displayName = seed_id;
                 if (seed_id.includes('_rare')) {
-                    let displayName = seed_id;
-                    if (displayName.endsWith('_rare')) {
-                        displayName = displayName.replace('_rare', '') + ' (rare)';
-                    }
-                    notification(`${displayName} seed added to inventory.`, `assets/notif.png`);
+                    displayName = seed_id.replace('_rare', '');
+                    notification(`${displayName} (rare) seed added to inventory.`, `assets/notif.png`);
                 } else {
                     notification(`${seed_id} seed added to inventory.`, `assets/notif.png`);
                 }
@@ -296,9 +300,14 @@ function showPlotInfo(dirt_plot) {
     const is_hybrid = dirt_plot.hybrid && dirt_plot.parents?.length === 2; // 2 parents = hybrid 
     const plot_name = `plot ${plot_number}${is_hybrid ? ' [hybridized]' : is_rare ? ' [can hybridize]' : ''}`; // add hybridized indicator or rare indicator
     
-    const hybrid_recipe = is_hybrid ? hybrid_recipes.find(r => 
-        r.parents.includes(dirt_plot.parents[0]) && r.parents.includes(dirt_plot.parents[1])
-    ) : null;
+    const hybrid_recipe = is_hybrid ? hybrid_recipes.find(r => {
+        if (r.parents.length !== 2) return false;
+        const [a, b] = r.parents;
+        return (
+            (a === dirt_plot.parents[0] && b === dirt_plot.parents[1]) ||
+            (a === dirt_plot.parents[1] && b === dirt_plot.parents[0])
+        );
+    }) : null;
     
     const getDisplayText = (base_type, hybrid_type, discovered) => {
         let text = base_type?.name || '';

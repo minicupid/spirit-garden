@@ -74,6 +74,44 @@ body, html {
     display: none;
 }
 
+#cheatsheet_btn {
+    position: absolute;
+    top: 3%;
+    left: 2%;
+    z-index: 10;
+    font-family: monospace;
+    font-size: 14px;
+    color: #535457;
+    background-color: #ffffff;
+    border: 3px solid;
+    box-shadow: #e1dad5 2px 2px 0px 0px;
+    padding: 5px;
+}
+
+#cheatsheet_btn:hover {
+    cursor: pointer;
+    background-color: #e8ebe9;
+    box-shadow: none;
+    transform: translate(2px, 2px);
+}
+
+#cheatsheet {
+    position: absolute;
+    width: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    z-index: 10;
+
+}
+
+#cheatsheet img {
+    width: 100%;
+}
+
 #garden {
     position: absolute;
     bottom: 20%;
@@ -97,6 +135,18 @@ body, html {
     line-height: 1.5;
     color: #535457;
     top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#garden_ui p {
+    font-family: 'Poppins',sans-serif;
+    font-size: 12px;
+    text-align: center;
+    color: #7f8188;
+    position: absolute;
+    width: 100%;
+    top: 10%;
     left: 50%;
     transform: translateX(-50%);
 }
@@ -335,7 +385,7 @@ body, html {
     justify-content: center;
     align-items: center;
     position: absolute;
-    top: 25%;
+    top: 30%;
     left: 50%;
     transform: translateX(-50%);
     background-color: #efefef;
