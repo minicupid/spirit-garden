@@ -1,10 +1,6 @@
 const music = document.getElementById('music');
 const canvas = document.getElementById('canvas');
 
-canvas.addEventListener('click', () => {
-    music.play();
-});
-
 const dirt_btns = document.getElementsByClassName('dirt');
 const item_hover = document.getElementById('item_hover');
 

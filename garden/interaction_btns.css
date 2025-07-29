@@ -1,0 +1,57 @@
+.interaction_btn {
+    position: absolute;
+    width: 65px;
+    background-color: transparent;
+    z-index: 10;
+    animation: bob 1.5s ease-out infinite;
+    border: 0px solid;
+}
+
+.interaction_btn img {
+    width: 100%;
+    height: 100%;
+}
+
+.interaction_btn:hover {
+    animation: none;
+    transform: rotate(10deg);
+}
+
+.water_notification {
+    position: absolute;
+    width: 35px;
+    background-color: transparent;
+    border: 0px solid;
+    z-index: 10;
+    top: -22px;
+    left: 30px;
+}
+
+.water_notification img {
+    width: 100%;
+    height: 100%;
+}
+
+#seed_btn  img {
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="20" viewBox="0 0 80 20"><rect width="80" height="20" fill="black" rx="3"/><text x="40" y="13" font-family="monospace" font-size="10" fill="white" text-anchor="middle">plant seed</text></svg>'), auto;
+}
+
+#info_btn:hover {
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="20" viewBox="0 0 80 20"><rect width="50" height="20" fill="black" rx="3"/><text x="25" y="13" font-family="monospace" font-size="10" fill="white" text-anchor="middle">info</text></svg>'), auto;
+}
+
+#water_btn:hover {
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="20" viewBox="0 0 80 20"><rect width="60" height="20" fill="black" rx="3"/><text x="30" y="13" font-family="monospace" font-size="10" fill="white" text-anchor="middle">water</text></svg>'), auto;
+}
+
+#hybrid_btn:hover {
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="20" viewBox="0 0 80 20"><rect width="79" height="20" fill="black" rx="3"/><text x="40" y="13" font-family="monospace" font-size="10" fill="white" text-anchor="middle">hybridize</text></svg>'), auto;
+}
+
+#cut_btn:hover {
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="20" viewBox="0 0 80 20"><rect width="50" height="20" fill="black" rx="3"/><text x="25" y="13" font-family="monospace" font-size="10" fill="white" text-anchor="middle">cut</text></svg>'), auto;
+}
+
+#close_btn:hover {
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="20" viewBox="0 0 80 20"><rect width="60" height="20" fill="black" rx="3"/><text x="30" y="13" font-family="monospace" font-size="10" fill="white" text-anchor="middle">close</text></svg>'), auto;
+}

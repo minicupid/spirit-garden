@@ -101,6 +101,7 @@ info_btn.addEventListener('click', () => {
     showPlotInfo(dirt_plot);
     hideUI();
     blurBg();
+    loadCSS("css styles/UI/plot_info.css");
 });
 
 // close info ui button
@@ -110,6 +111,7 @@ if (close_info_btn) {
         closeInfoUI();
         unblurBg();
         hideUI();
+        unloadCSS("css styles/UI/plot_info.css");
     });
 }
 
@@ -124,12 +126,14 @@ hybrid_btn.addEventListener('click', () => {
     else {
         blurBg();
         openHybridUI(selected_plot);
+        loadCSS("css styles/UI/hybrid.css");
     }
 });
 
 hybrid_cancel_btn.addEventListener('click', () => {
     closeHybridUI();
     unblurBg();
+    unloadCSS("css styles/UI/hybrid.css");
 });
 
 close_notepad_btn.addEventListener('click', () => {
@@ -138,6 +142,7 @@ close_notepad_btn.addEventListener('click', () => {
     if (notepad) {
         unblurBg();
         notepad.style.display = 'none';
+        unloadCSS("css styles/UI/notepad.css");
     }
     hideUI();
 });
@@ -148,9 +153,10 @@ notepad_btn.addEventListener('click', () => {
     if (notepad) {
         blurBg();
         notepad.style.display = 'flex';
+        loadCSS("css styles/UI/notepad.css");
         const np_flower_list = document.getElementById('np_flower_list');
         if (np_flower_list) {
-            np_flower_list.innerHTML = '<img id = "np_cover" src = "assets/notepadUi_cover.png">';
+            np_flower_list.innerHTML = '<img id = "np_cover" src = "assets/UI borders/notepadUi_cover.png">';
         }
     }
     hideUI();
@@ -163,9 +169,12 @@ notepad_btn.addEventListener('click', () => {
 if (inventory_btn) {
     inventory_btn.addEventListener('click', () => {
         if (inventory.style.display === 'flex') {
+            unloadCSS("css styles/UI/inventory.css");
             inventory.style.display = 'none';
             unblurBg();
         } else {
+            loadCSS("css styles/UI/inventory.css");
+            inventory.style.display = 'flex';
             showFlowerInventory();
             blurBg();
         }
@@ -180,5 +189,6 @@ if (close_inventory_btn) {
     close_inventory_btn.addEventListener('click', () => {
         inventory.style.display = 'none';
         unblurBg();
+        unloadCSS("css styles/UI/inventory.css");
     });
 }

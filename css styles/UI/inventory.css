@@ -1,0 +1,103 @@
+#inventory {
+    position: absolute;
+    width: 400px;
+    height: 130px;
+    background-color: transparent;
+    border-radius: 10px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    display: none;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 15px;
+    animation: popup-transform 0.3s ease-out;
+}
+
+#inventory_ui_img {
+    position: absolute;
+    width: 120%;
+    top: -65%;
+    z-index: -1;
+}
+
+#inventory h2 {
+    margin: auto;
+    font-size: 16px;
+    margin: 0px;
+    color: #363636;
+}
+
+#inventory_items {
+    background-color: transparent;
+    width: 90%;
+    max-width: 350px;
+    height: 150px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin: auto;
+    margin-bottom: -10px;
+    animation: popup 0.3s ease-out;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #d4cece transparent;
+    padding: 10px;
+}
+
+.flower_type_btn {
+    width: 80px;
+    background-color: transparent;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    cursor: help;
+    padding: 5px;
+    border-radius: 8px;
+}
+
+.flower_type_btn img {
+    width: 100%;
+    object-fit: contain;
+}
+
+.flower_type_btn span {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    font-family: monospace;
+    font-size: 10px;
+    padding: 4px;
+    border-radius: 3px;
+    min-width: 12px;
+    text-align: center;
+}
+
+#close_inventory_btn {
+    position: absolute;
+    bottom: -70px;
+    width: 60px;
+    right: -3%;
+    margin: 0 14px;
+    font-size: 14px;
+    font-family: monospace;
+    font-weight: bold;
+    border: 3px solid;
+    color: #495057;
+    background-color: #e8ebe9;
+    box-shadow: #e1dad5 2px 2px 0px 0px;
+}
+
+#close_inventory_btn:hover {
+    cursor: pointer;
+    transform: scale(1.05);
+}

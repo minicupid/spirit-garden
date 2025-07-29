@@ -3,17 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>spirit garden</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="animations.css">
-    <link rel="stylesheet" href="uistyle.css">
+    <title>spirit inn [wip]</title>
+    <link rel="stylesheet" href="garden/garden.css">
+    <link rel="stylesheet" href="css styles/animations.css">
+    <link rel="stylesheet" href="garden/interaction_btns.css">
+    <link rel="stylesheet" href="css styles/UI/alwaysactive.css">
     <link rel="icon" type="image/png" href="assets/seeds/brown_seed.png">
 </head>
 <body>
     <div id = "clock"> </div>
+    <script src="scripts/clock.js"></script>
     <button id = "cheatsheet_btn" class = "sound_soft_click" onclick = "toggleCheatsheet()"> toggle cheatsheet </button>
     <div id = "cheatsheet" class = "hidden">
-        <img src = "assets/cheatsheetUi.png">
+        <img src = "assets/UI borders/cheatsheetUi.png">
     </div>
     <div id = "background">
     </div>
@@ -42,6 +44,9 @@
         </div>
 
         <div id = "garden">
+            <script src = "garden/select_plot.js"></script>
+            <script src = "garden/pause_growth.js"></script>
+
             <img id = "garden_img" src = "assets/garden.png">
             <button id = "dirt1" class = "dirt sound_click" alt = "plot 1">
                 <img src = "assets/dirt.png">
@@ -62,15 +67,19 @@
                 <img src = "assets/btns/plant.png">
             </button>
             <button id = "info_btn" class = "interaction_btn sound_soft_click sound_pop_hover">
+                <script src = "garden/sprout interactions/infosprout.js"></script>
                 <img src = "assets/btns/info.png">
             </button>
             <button id = "water_btn" class = "interaction_btn sound_pop_hover">
+                <script src = "garden/sprout interactions/watersprout.js"></script>
                 <img src = "assets/btns/water.png">
             </button>
             <button id = "hybrid_btn" class = "interaction_btn sound_soft_click sound_pop_hover">
+                <script src = "garden/sprout interactions/hybridize.js"></script>
                 <img src = "assets/btns/hybridize.png">
             </button>
             <button id = "cut_btn" class = "interaction_btn sound_pop_hover">
+                <script src = "garden/sprout interactions/cutsprout.js"></script>
                 <img src = "assets/btns/cut.png">
             </button>
             <button id = "close_btn" class = "interaction_btn sound_pop_hover">
@@ -78,9 +87,9 @@
             </button>
         </div>
 
-        <div id = "seed_ui"> <!-- ============================== -->
+        <div id = "seed_ui" style="display: none;"> <!-- ============================== -->
 
-            <img id = "seed_ui_img" src = "assets/uiBorder.gif">
+            <img id = "seed_ui_img" src = "assets/UI borders/uiBorder.gif">
             <h2> select a seed </h2>
             <div id = "seed_items">
                 
@@ -89,11 +98,10 @@
         
         </div>
 
-        <div id = "hybrid_ui"> <!-- ============================== -->
+        <div id = "hybrid_ui" style="display: none;"> <!-- ============================== -->
         <div id = "hybrid_ui_main">
-            <img id = "hybrid_ui_A" src = "assets/hybridUi_A.gif">
+            <img id = "hybrid_ui_A" src = "assets/UI borders/hybridUi_A.gif">
             <div id = "hybrid_hint">
-                <img src = "assets/hint.gif">
                 <p> </p>
             </div>
             <div id = "inner_container">
@@ -102,12 +110,12 @@
                         <img src = "assets/flowers/green.gif">
                     </div>
                     <div id = "hybrid_new_seed" class = "hybrid_seed sound_click">
-                        <img id = "hybrid_add_btn" src = "assets/add.png" alt = "add seed">
+                        <img id = "hybrid_add_btn" src = "assets/btns/add.png" alt = "add seed">
                     </div>
                 </div>
                 <div id = "hybrid_output">
                     <div id = "hybrid_possible_seed" class = "hybrid_seed">
-                        <img src = "assets/undiscovered.gif">
+                        <img src = "assets/icons/undiscovered.gif">
                     </div>
                 </div>
             </div>
@@ -116,27 +124,40 @@
         </div>
 
         <div id = "hybrid_sidebar">
-            <img id = "hybrid_sidebar_img" src = "assets/hybridUi_B.gif">
-            <div id = "hybrid_sidebar_seeds">
-                
-            </div>
+            <img id = "hybrid_sidebar_img" src = "assets/UI borders/hybridUi_B.gif">
+            <div id = "hybrid_sidebar_seeds"></div>
         </div>
+    </div>
+
+    <div id = "info_container" style="display: none;">
+        <img id = "info_img" src = "assets/UI borders/infoUi.png">
+        <h2 id = "plot_name"> plot one ✦ ✦ ✦ </h2>
+        <button id = "close_info_btn" class = "sound_ui_pop"> <img src = "assets/btns/close.png"> </button>
+        <img id = "sprout_img" src = "assets/growth/2.gif">
+
+        <div id = "info_content">
+            <h2> parent seeds: </h2>
+                <p id = "parent_seeds"> </p>
+            <h2> blooms into: </h2>
+                <p id = "bloom_into"> </p>
+            <h2> can drop: </h2>
+                <p id = "can_drop"> </p>
         </div>
 
-        <div id = "info_ui"> <!-- ============================== -->
-            <h2 id = "info_title"> </h2>
-            <div id = "info_content">
-                <span id = "seed_type"> </span>
-                <span id = "seed_stage"> </span>
-                <span id = "seed_hybrid"> </span>
-                <span id = "seed_water"> </span>
+        <div id = "growth-scale">
+            <img id = "growth_seed_bg" src = "assets/UI borders/infoUi2.png">
+            <img id = "growth_seed_img" src = "assets/seeds/brown_seed.png">
+            <div class="progress">
+                <span class="progress-value" id="growth-progress-value" style="width:10%"></span>
             </div>
+            <img id = "growth_flower_img" src = "assets/growth/5.gif">
         </div>
     </div>
 
     <div id = "notepad">
-        <img id = "notepad_img" src = "assets/notepadUi.png">
-        <img id = "notepad_deco" src = "assets/notepadUi_deco.png">
+        <script src = "scripts/notepad.js"></script>
+        <img id = "notepad_img" src = "assets/UI borders/notepadUi.png">
+        <img id = "notepad_deco" src = "assets/UI borders/notepadUi_deco.png">
         <button id = "close_notepad_btn" class = "sound_ui_pop"> close </button>
         <div id = "bottom-blur"></div>
         <div id = "np_btns">
@@ -148,46 +169,23 @@
             <div id = "np_title"> discovery </div>
 
             <div id = "np_flower_list">
-                <img id = "np_cover" src = "assets/notepadUi_cover.png">
+                <img id = "np_cover" src = "assets/UI borders/notepadUi_cover.png">
             </div>
         </div>
     </div>
     <div id = "notification-container">
+        <script src = "scripts/notification.js"></script>
         <p id = "notification" style = "display: none;"> </p>
     </div>
 
-    <div id = "inventory">
-        <img id = "seed_ui_img" src = "assets/uiBorder.gif">
+    <div id = "inventory" style="display: none;">
+        <script src = "scripts/flowerinventory.js"></script>
+        <img id = "inventory_ui_img" src = "assets/UI borders/uiBorder.gif">
         <h2> your flowers </h2>
         <div id = "inventory_items">
             
         </div>
         <button id = "close_inventory_btn" class = "sound_ui_pop"> close </button>
-    </div>
-
-    <div id = "info_container">
-        <img id = "info_img" src = "assets/infoUi.png">
-        <h2 id = "plot_name"> plot one ✦ ✦ ✦ </h2>
-        <button id = "close_info_btn" class = "sound_ui_pop"> <img src = "assets/btns/close.png"> </button>
-        <img id = "sprout_img" src = "assets/growth/2.gif">
-
-        <div id = "info_content">
-        <h2> parent seeds: </h2>
-            <p id = "parent_seeds"> </p>
-        <h2> blooms into: </h2>
-            <p id = "bloom_into"> </p>
-        <h2> can drop: </h2>
-            <p id = "can_drop"> </p>
-
-        <div id = "growth-scale">
-            <img id = "growth_seed_bg" src = "assets/infoUi2.png">
-            <img id = "growth_seed_img" src = "assets/seeds/brown_seed.png">
-            <div class="progress">
-                <span class="progress-value" id="growth-progress-value" style="width:10%"></span>
-            </div>
-            <img id = "growth_flower_img" src = "assets/growth/5.gif">
-        </div>
-
     </div>
 
     <audio id = "music" src = "assets/music.mp3" loop></audio>
@@ -206,10 +204,11 @@
 </body>
 <script src = "globalvar.js"></script>
 <script src="script.js"></script>
-<script src="cycle.js"></script>
-<script src="advance.js"></script>
-<script src="button-positioning.js"></script>
-<script src="interactions.js"></script>
-<script src = "toggles.js"></script>
-<script src="sounds.js"></script>
+<script src="garden/cycle.js"></script>
+<script src="garden/advance.js"></script>
+<script src="garden/button-positioning.js"></script>
+<script src="garden/plant_seed.js"></script>
+<script src = "scripts/toggles.js"></script>
+<script src="scripts/sounds.js"></script>
+
 </html>

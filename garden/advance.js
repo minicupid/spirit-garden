@@ -105,7 +105,7 @@ function advanceSprout(plot_id) {
             function advanceAnimation(plot_element) {
             // advancement animation 3s
             const overlay = document.createElement('img');
-            overlay.src = "assets/advance.gif";
+            overlay.src = "assets/overlays/advance.gif";
             overlay.alt = "advancement animation";
             overlay.style.position = 'absolute';
             overlay.style.top = '0';

@@ -1,0 +1,118 @@
+#seed_ui {
+    position: absolute;
+    width: 400px;
+    height: 130px;
+    translate: 0px 100%;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    padding: 15px 0px;
+    gap: 10px;
+
+    background-color: transparent;
+    z-index: 10;
+    animation: popup 0.3s ease-out;
+}
+
+#seed_ui h2 {
+    margin: auto;
+    font-size: 16px;
+    margin: 0px;
+    color: #363636;
+}
+
+#seed_items {
+    background-color: transparent;
+    width: 70%;
+    max-width: 350px;
+    height: auto;
+    min-height: 80px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    margin: auto;
+    animation: popup 0.3s ease-out;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #d4cece transparent;
+}
+
+
+.seed_type_btn {
+    border: 0px solid;
+    border-radius: 5px;
+    padding: 5px;
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.seed_type_btn:hover {
+    background-color: #e6e6e6;
+    transform: scale(1.05);
+}
+
+.seed_type_btn img {
+    width: 32px;
+    height: 32px;
+    display: block;
+}
+
+.seed_type_btn span {
+    font-family: monospace;
+    font-weight: bold;
+    display: block;
+    text-align: center;
+    margin-top: 2px;
+}
+
+.seed_type_btn .rare-indicator {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    width: 15px;
+    height: 15px;
+    z-index: 10;
+}
+
+#seed_close_btn {
+    margin: auto;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: monospace;
+    font-weight: bold;
+    color: #495057;
+    background-color: #e8ebe9;
+    box-shadow: #e1dad5 2px 2px 0px 0px;
+}
+
+#seed_close_btn:hover {
+    box-shadow: none;
+    position: relative;
+    top: 2px;
+    left: 2px;
+}
+
+#seed_ui_img {
+    position: absolute;
+    width: 120%;
+    top: -65%;
+    z-index: -1;
+}
+
+.notification img {
+    width: 20px;
+    height: 20px;
+    object-fit: cover;
+    vertical-align: middle;
+}

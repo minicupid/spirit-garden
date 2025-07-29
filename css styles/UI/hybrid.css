@@ -1,0 +1,250 @@
+#hybrid_ui {
+    position: absolute;
+    width: 500px;
+    height: 370px;
+    margin: auto;
+    background-color: transparent;
+    z-index: 15;
+    animation: popup 0.3s ease-out;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    gap: 30px;
+    display: none;
+}
+
+#hybrid_ui_main {
+    margin: auto;
+    width: 350px;
+    height: 350px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0px;
+    position: relative;
+
+    background-color: transparent;
+    z-index: 10;
+    animation: popup 0.3s ease-out;
+}
+
+#hybrid_ui_A {
+    position: absolute;
+    width: 450px;
+    height: 450px;
+    z-index: 10;
+}
+
+#hybrid_hint {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    background-color: transparent;
+    gap: 10px;
+    margin: 0 30px;
+    margin-top: 20px;
+    text-align: center;
+    font-weight: bold;
+    z-index: 11;
+}
+
+#hybrid_hint p {
+    font-size: 14px;
+    margin: 0px;
+}
+
+#inner_container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 70%;
+    height: 200px;
+    position: absolute;
+    top: 98px;
+    background-color: transparent;
+    z-index: 12;
+}
+
+.hybrid_seed {
+    width: 80px;
+    height: 80px;
+    background-color: transparent;
+    border-radius: 5px;
+    border: 0px solid;
+}
+
+.hybrid_seed img {
+    width: 100%;
+    height: 100%;
+}
+
+#hybrid_input {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    height: 100%;
+    gap: 15px;
+    margin: auto;
+    background-color: transparent;
+    z-index: 12;
+}
+
+#hybrid_add_btn {
+    animation: grow 1s ease-in-out infinite;
+}
+
+#hybrid_output {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    height: 100%;
+    background-color: transparent;
+    z-index: 12;
+}
+
+#hybrid_possible_seed {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#hybrid_possible_seed img {
+    width: 50%;
+    height: 50%;
+    object-fit: cover;
+    vertical-align: middle;
+}
+
+#hybrid_old_seed {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#hybrid_new_seed {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#hybrid_new_seed img {
+    width: 50%;
+    height: 50%;
+    object-fit: cover;
+    vertical-align: middle;
+}
+
+#hybrid_add_btn:hover {
+    animation: none;
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+
+#hybrid_combine_btn {
+    margin: auto;
+    padding: 0;
+    margin-bottom: 25px;
+    margin-right: 50px;
+    width: 160px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: monospace;
+    z-index: 12;
+    background-color: transparent;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+#hybrid_combine_btn:disabled {
+    opacity: 0.3;
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
+#hybrid_combine_btn img {
+    width: 100%;
+}
+
+#hybrid_combine_btn:hover:not(:disabled) {
+    opacity: 1;
+}
+
+#hybrid_cancel_btn {
+    position: absolute;
+    bottom:  10px;;
+    right: 45px;
+    width: 100px;
+    margin: auto;
+    border: 0px solid;
+    background-color: transparent;
+    cursor: pointer;
+    z-index: 10;
+    opacity: 0.7;
+}
+
+#hybrid_cancel_btn img {
+    width: 100%;
+}
+
+
+#hybrid_cancel_btn:hover {
+    transform: scale(1.05);
+    opacity: 1;
+}
+
+#hybrid_sidebar {
+    background-color: transparent;
+    width: 100px;
+    height: 370px;
+    z-index: 5;
+    animation: popup 0.3s ease-out;
+}
+
+#hybrid_sidebar_img {
+    width: 130px;
+    height: 410px;
+    position: absolute;
+    z-index: 10;
+    top: -20px;
+}
+
+#hybrid_sidebar_seeds {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
+    position: relative;
+    left: 15px;
+    background-color: transparent;
+    z-index: 12;
+}
+
+.hybrid_sidebar_seed {
+    border: 0px solid;
+    border-radius: 5px;
+    padding: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    opacity: 0.8;
+}
+
+.hybrid_sidebar_seed:hover {
+    background-color: #e6e6e6;
+    transform: scale(1.05);
+    opacity: 1;
+}
